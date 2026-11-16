@@ -1,0 +1,91 @@
+{
+  "minecraft:armor": [
+    "protection",
+    "texture_type"
+  ],
+  "minecraft:block_placer": [
+    "block",
+    "use_on"
+  ],
+  "minecraft:cooldown": [
+    "category",
+    "duration"
+  ],
+  "minecraft:digger": [
+    "destroy_speeds",
+    "on_dig",
+    "use_efficiency"
+  ],
+  "minecraft:display_name": [
+    "value"
+  ],
+  "minecraft:durability": [
+    "damage_chance",
+    "max_durability"
+  ],
+  "minecraft:dye_powder": [
+    "color"
+  ],
+  "minecraft:entity_placer": [
+    "dispense_on",
+    "entity",
+    "use_on"
+  ],
+  "minecraft:food": [
+    "can_always_eat",
+    "nutrition",
+    "on_consume",
+    "saturation_modifier",
+    "using_converts_to"
+  ],
+  "minecraft:fuel": [
+    "duration"
+  ],
+  "minecraft:icon": [
+    "frame",
+    "legacy_id",
+    "texture"
+  ],
+  "minecraft:knockback_resistance": [
+    "protection"
+  ],
+  "minecraft:on_use": [
+    "on_use"
+  ],
+  "minecraft:on_use_on": [
+    "on_use_on"
+  ],
+  "minecraft:projectile": [
+    "minimum_critical_power",
+    "projectile_entity"
+  ],
+  "minecraft:repairable": [
+    "on_repaired",
+    "repair_items"
+  ],
+  "minecraft:shooter": [
+    "ammunition",
+    "charge_on_draw",
+    "launch_power_scale",
+    "max_draw_duration",
+    "max_launch_power",
+    "scale_power_by_draw_duration"
+  ],
+  "minecraft:throwable": [
+    "do_swing_animation",
+    "launch_power_scale",
+    "max_draw_duration",
+    "max_launch_power",
+    "min_draw_duration",
+    "scale_power_by_draw_duration"
+  ],
+  "minecraft:weapon": [
+    "on_hit_block",
+    "on_hurt_entity",
+    "on_not_hurt_entity"
+  ],
+  "minecraft:wearable": [
+    "dispensable",
+    "slot"
+  ]
+}

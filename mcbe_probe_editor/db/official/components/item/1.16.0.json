@@ -1,0 +1,427 @@
+{
+  "kind": "item",
+  "format_version": "1.16.0",
+  "updated": "2026-11-16 20:07:39",
+  "components": {
+    "minecraft:armor": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "The armor item componenent determines the amount of protection you have in your armor item.",
+      "doc_ref": "docs/item/minecraft_armor.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:block_placer": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Planter item component. planter items are items that can be planted.",
+      "doc_ref": "docs/item/minecraft_block_placer.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:cooldown": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Cool down time for a component. After you use an item it becomes unusable for the duration specified by the 'cool down time' setting in this component.",
+      "doc_ref": "docs/item/minecraft_cooldown.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:digger": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Digger item. Component put on items that dig.",
+      "doc_ref": "docs/item/minecraft_digger.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:display_name": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Display Name item component. Display Names display the name of an item.",
+      "doc_ref": "docs/item/minecraft_display_name.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:durability": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Durability item component: how much damage can this item take before breaking.",
+      "doc_ref": "docs/item/minecraft_durability.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:dye_powder": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Dye powder, there are 16 kinds of dye.",
+      "doc_ref": "docs/item/minecraft_dye_powder.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:entity_placer": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Entity placer item component. You can specifiy allowed blocks that the item is restricted to.",
+      "doc_ref": "docs/item/minecraft_entity_placer.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:food": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "When an item has a food component, it becomes edible to the player.",
+      "doc_ref": "docs/item/minecraft_food.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:fuel": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Fuel component. Allows this item to be used as fuel in a furnace to 'cook' other items.",
+      "doc_ref": "docs/item/minecraft_fuel.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:icon": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "The icon item componenent determines the icon to represent the item in the UI and elsewhere.",
+      "doc_ref": "docs/item/minecraft_icon.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:knockback_resistance": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Knockback Resistance Item. Component put on items that provide knockback resistance.",
+      "doc_ref": "docs/item/minecraft_knockback_resistance.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_use": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "The on_use item component allows you to receive an event when the item is used.",
+      "doc_ref": "docs/item/minecraft_on_use.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_use_on": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "The on_use_on item component allows you to receive an event when the item is used on a block in the world.",
+      "doc_ref": "docs/item/minecraft_on_use_on.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:projectile": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Projectile item component. projectile items shoot out, like an arrow.",
+      "doc_ref": "docs/item/minecraft_projectile.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:repairable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Repairable item component: how much damage can this item repair, what items can repair it.",
+      "doc_ref": "docs/item/minecraft_repairable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:shooter": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Shooter Item Component.",
+      "doc_ref": "docs/item/minecraft_shooter.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:throwable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Throwable item component. Throwable items, such as a snowball.",
+      "doc_ref": "docs/item/minecraft_throwable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:weapon": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Weapon Item Component. Added to every weapon item such as axe, sword, trident, bow, crossbow.",
+      "doc_ref": "docs/item/minecraft_weapon.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:wearable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Wearable item component.",
+      "doc_ref": "docs/item/minecraft_wearable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    }
+  }
+}

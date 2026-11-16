@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{ i18n_dict["struct.title"] }} · {{ project_id }}{% endblock %}
+
+{% block topbar %}
+<nav class="crumbs">
+  <a href="{{ url_for('project.projects_page') }}" data-i18n="nav.projects">项目</a>
+  <span>/</span>
+  <a href="{{ url_for('index.index_page', project_id=project_id) }}">{{ project_id }}</a>
+  <span>/</span><strong data-i18n="nav.structures">结构版本</strong>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 data-i18n="struct.title">结构版本检查 / 降版本</h1>
+  <p class="muted" data-i18n="struct.desc">不解析结构内容，只处理 format_version 容器编码。</p>
+
+  <div class="toolbar">
+    <button id="st-refresh" class="btn" data-i18n="struct.refresh">刷新</button>
+    <button id="st-all" class="btn primary" data-i18n="struct.downgradeAll">全部降版本</button>
+    <label class="inline"><input id="st-backup" type="checkbox" checked>
+      <span data-i18n="struct.backup">转换前备份到 _fv2_backup/</span></label>
+  </div>
+
+  <table class="table" id="st-table">
+    <thead>
+      <tr>
+        <th data-i18n="struct.th.pack">包</th>
+        <th data-i18n="struct.th.path">路径</th>
+        <th data-i18n="struct.th.fv">format_version</th>
+        <th data-i18n="struct.th.size">尺寸</th>
+        <th data-i18n="struct.th.layers">层数</th>
+        <th data-i18n="struct.th.palette">调色板</th>
+        <th data-i18n="struct.th.void">空位</th>
+        <th data-i18n="struct.th.actions">操作</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <p class="muted" id="st-count"></p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PROJECT_ID = {{ project_id|tojson }};</script>
+<script src="{{ url_for('static', filename='js/structures.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

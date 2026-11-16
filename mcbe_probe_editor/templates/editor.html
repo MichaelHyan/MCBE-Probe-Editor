@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ ident }} · {{ project_id }}{% endblock %}
+
+{% block topbar %}
+<nav class="crumbs">
+  <a href="{{ url_for('project.projects_page') }}" data-i18n="nav.projects">项目</a>
+  <span>/</span>
+  <a href="{{ url_for('index.index_page', project_id=project_id) }}">{{ project_id }}</a>
+  <span>/</span>
+  <a href="{{ url_for('index.object_page', project_id=project_id, ident=ident) }}">{{ ident }}</a>
+  <span>/</span><strong data-i18n="nav.edit">编辑</strong>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1>{{ ident }}</h1>
+  <div id="edit-root">
+    <p class="empty" data-i18n="common.loading">加载中…</p>
+  </div>
+</section>
+
+<div id="comp-modal" class="modal hidden">
+  <div class="modal-box">
+    <h3 id="comp-modal-title">编辑</h3>
+
+    <div id="comp-name-row" class="toolbar" style="display:none;margin-top:8px">
+      <input id="comp-name" type="text" data-i18n-ph="editor.itemName" placeholder="条目名（如 minecraft:health）" style="flex:1">
+    </div>
+
+    <div class="toolbar" style="margin-top:8px">
+      <span class="muted small" data-i18n="editor.example">示例</span>
+      <select id="comp-example" style="flex:1"></select>
+      <button id="comp-insert-example" class="btn small" data-i18n="editor.fillExample">填入</button>
+      <button id="comp-copy" class="btn small ghost" data-i18n="editor.copy">复制</button>
+      <button id="comp-save-example" class="btn small ghost" data-i18n="editor.saveAsExample">存为示例</button>
+    </div>
+
+    <p class="muted small" id="comp-modal-hint" data-i18n="editor.jsonHint"></p>
+    <textarea id="comp-value" class="code-input" rows="12" spellcheck="false"></textarea>
+    <div class="toolbar">
+      <button id="comp-save" class="btn primary" data-i18n="common.save">保存</button>
+      <button id="comp-cancel" class="btn ghost" data-i18n="common.cancel">取消</button>
+    </div>
+  </div>
+</div>
+
+<div id="add-modal" class="modal hidden">
+  <div class="modal-box">
+    <h3 data-i18n="editor.addFromDb">+ 从数据库添加</h3>
+    <input id="add-search" type="text" data-i18n-ph="editor.searchComponent" placeholder="搜索组件名" style="width:100%">
+    <div id="add-list" class="add-list"></div>
+    <div class="toolbar">
+      <button id="add-cancel" class="btn ghost" data-i18n="common.close">关闭</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+window.PROJECT_ID = {{ project_id|tojson }};
+window.IDENT = {{ ident|tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/editor.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

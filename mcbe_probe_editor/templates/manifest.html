@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ i18n_dict["mf.title"] }} · {{ project_id }}{% endblock %}
+
+{% block topbar %}
+<nav class="crumbs">
+  <a href="{{ url_for('project.projects_page') }}" data-i18n="nav.projects">项目</a>
+  <span>/</span>
+  <a href="{{ url_for('index.index_page', project_id=project_id) }}">{{ project_id }}</a>
+  <span>/</span><strong data-i18n="mf.title">包信息</strong>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 data-i18n="mf.title">包信息（manifest）</h1>
+  <p class="muted" data-i18n="mf.desc">行为包与资源包的 manifest 属于项目级配置，不进入对象索引。</p>
+
+  <div class="toolbar" id="mf-tabs">
+    <button class="btn small primary" data-pack="behavior" data-i18n="browser.behavior">行为包</button>
+    <button class="btn small ghost" data-pack="resource" data-i18n="browser.resource">资源包</button>
+  </div>
+
+  <div id="mf-status"></div>
+
+  <div class="toolbar">
+    <button id="mf-template" class="btn small ghost" data-i18n="mf.genTemplate">生成模板</button>
+    <button id="mf-validate" class="btn small ghost" data-i18n="mf.validate">校验</button>
+    <span class="spacer"></span>
+    <button id="mf-save" class="btn primary" data-i18n="common.save">保存</button>
+  </div>
+
+  <textarea id="mf-editor" class="code-input" rows="24" spellcheck="false"></textarea>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PROJECT_ID = {{ project_id|tojson }};</script>
+<script src="{{ url_for('static', filename='js/manifest.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

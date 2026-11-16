@@ -1,0 +1,214 @@
+{
+  "kind": "block",
+  "format_version": "1.12.0",
+  "updated": "2026-11-16 20:07:39",
+  "components": {
+    "minecraft:block_light_absorption": {
+      "value_type": "object",
+      "default": {
+        "value": 0
+      },
+      "example": {
+        "value": 0
+      },
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {
+            "value": 0
+          },
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "How a block absorbs light",
+      "doc_ref": "docs/block/minecraft_block_light_absorption.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:block_light_emission": {
+      "value_type": "object",
+      "default": {
+        "emission": 0.0
+      },
+      "example": {
+        "emission": 0.0
+      },
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {
+            "emission": 0.0
+          },
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "Makes the block emit light.",
+      "doc_ref": "docs/block/minecraft_block_light_emission.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:destroy_time": {
+      "value_type": "object",
+      "default": {
+        "value": 0.0
+      },
+      "example": {
+        "value": 0.0
+      },
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {
+            "value": 0.0
+          },
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "The destroy time propety for a block",
+      "doc_ref": "docs/block/minecraft_destroy_time.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:explosion_resistance": {
+      "value_type": "object",
+      "default": {
+        "value": 0.0
+      },
+      "example": {
+        "value": 0.0
+      },
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {
+            "value": 0.0
+          },
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "The explosion resistance property for a block.",
+      "doc_ref": "docs/block/minecraft_explosion_resistance.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:flammable": {
+      "value_type": "object",
+      "default": {
+        "flame_odds": 0,
+        "burn_odds": 0
+      },
+      "example": {
+        "flame_odds": 0,
+        "burn_odds": 0
+      },
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {
+            "flame_odds": 0,
+            "burn_odds": 0
+          },
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "Describes the flammable properties for this block.",
+      "doc_ref": "docs/block/minecraft_flammable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:friction": {
+      "value_type": "object",
+      "default": {
+        "value": 0.1
+      },
+      "example": {
+        "value": 0.1
+      },
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {
+            "value": 0.1
+          },
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "Property describing the friction for this block. Friction effects an entities movements when it walks on the block.",
+      "doc_ref": "docs/block/minecraft_friction.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:loot": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "Loot table component used to set what loot table is used when a block is destroyed.",
+      "doc_ref": "docs/block/minecraft_loot.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:map_color": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.12.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.12.0.0/1.12.0.28",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.12.0）",
+      "description": "Modifies the map color for a block.",
+      "doc_ref": "docs/block/minecraft_map_color.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    }
+  }
+}

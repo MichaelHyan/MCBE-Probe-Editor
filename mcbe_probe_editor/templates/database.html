@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ i18n_dict["db.title"] }} · {{ project_id }}{% endblock %}
+
+{% block topbar %}
+<nav class="crumbs">
+  <a href="{{ url_for('project.projects_page') }}" data-i18n="nav.projects">项目</a>
+  <span>/</span>
+  <a href="{{ url_for('index.index_page', project_id=project_id) }}">{{ project_id }}</a>
+  <span>/</span><strong data-i18n="nav.database">组件数据库</strong>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 data-i18n="db.title">组件数据库</h1>
+  <p class="muted" data-i18n="db.desc">各版本互相独立，按 kind + format_version 精确查询。</p>
+
+  <div class="toolbar">
+    <select id="db-kind"><option value="" data-i18n="db.kind">选择 kind</option></select>
+    <select id="db-fv"><option value="" data-i18n="db.fv">选择版本</option></select>
+    <button id="db-load" class="btn primary" data-i18n="db.load">载入</button>
+    <span class="spacer"></span>
+    <button id="db-promote-all" class="btn" data-i18n="db.promoteAll">提升全部到正式库</button>
+  </div>
+
+  <p class="muted small" id="db-info"></p>
+
+  <table class="table" id="db-table">
+    <thead>
+      <tr>
+        <th style="width:28%">组件</th>
+        <th style="width:80px">类型</th>
+        <th data-i18n="db.th.example">示例 / 注释</th>
+        <th style="width:100px" data-i18n="db.th.origin">来源</th>
+        <th style="width:150px" data-i18n="db.th.actions">操作</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<div id="doc-modal" class="modal hidden">
+  <div class="modal-box">
+    <h3 id="doc-title">组件文档</h3>
+    <p class="muted small" data-i18n="db.docHint">保存后写入正式库 docs/ 并标记已核实。</p>
+    <textarea id="doc-content" class="code-input" rows="16" spellcheck="false"></textarea>
+    <div class="toolbar">
+      <button id="doc-save" class="btn primary" data-i18n="db.docSave">保存并核实</button>
+      <button id="doc-cancel" class="btn ghost" data-i18n="common.cancel">取消</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PROJECT_ID = {{ project_id|tojson }};</script>
+<script src="{{ url_for('static', filename='js/database.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ i18n_dict["unbound.title"] }} · {{ project_id }}{% endblock %}
+
+{% block topbar %}
+<nav class="crumbs">
+  <a href="{{ url_for('project.projects_page') }}" data-i18n="nav.projects">项目</a>
+  <span>/</span>
+  <a href="{{ url_for('index.index_page', project_id=project_id) }}">{{ project_id }}</a>
+  <span>/</span><strong data-i18n="nav.unbound">未绑定项</strong>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 data-i18n="unbound.title">未绑定项</h1>
+  <p class="muted" data-i18n="unbound.desc">无法归属到具体对象的文件与语言键。</p>
+
+  <div class="toolbar">
+    <select id="ub-kind"><option value="" data-i18n="common.all">全部</option></select>
+    <input id="ub-q" type="text" data-i18n-ph="unbound.search" placeholder="搜索路径 / 键名 / identifier">
+    <button id="ub-refresh" class="btn" data-i18n="common.refresh">刷新</button>
+    <span class="spacer"></span>
+    <span class="muted" id="ub-count"></span>
+  </div>
+
+  <table class="table" id="ub-table">
+    <thead>
+      <tr>
+        <th style="width:130px" data-i18n="unbound.th.kind">类型</th>
+        <th data-i18n="unbound.th.pack">包</th>
+        <th data-i18n="unbound.th.path">路径 / 键</th>
+        <th data-i18n="unbound.th.extra">补充</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="toolbar">
+    <button id="ub-prev" class="btn small ghost" data-i18n="common.prev">上一页</button>
+    <button id="ub-next" class="btn small ghost" data-i18n="common.next">下一页</button>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PROJECT_ID = {{ project_id|tojson }};</script>
+<script src="{{ url_for('static', filename='js/unbound.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

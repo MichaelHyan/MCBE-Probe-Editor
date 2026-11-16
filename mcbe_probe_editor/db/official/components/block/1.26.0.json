@@ -1,0 +1,826 @@
+{
+  "kind": "block",
+  "format_version": "1.26.0",
+  "updated": "2026-11-16 20:07:39",
+  "components": {
+    "minecraft:breathability": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Determines whether the block is breathable by defining if the block is treated as a `solid` or as `air`. The default is `solid` if this component is omitted.",
+      "doc_ref": "docs/block/minecraft_breathability.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:chest_obstruction": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The description identifier of the chest obstruction componentExperimental toggles required: Upcoming Creator Features (in format versions before 1.26.20)",
+      "doc_ref": "docs/block/minecraft_chest_obstruction.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:collision_box": {
+      "value_type": "boolean",
+      "default": true,
+      "example": true,
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": true,
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Defines the area of the block that collides with entities. If set to true, default values are used. If set to false, the block's collision with entities is disabled. If this component is omitted, default values are used.",
+      "doc_ref": "docs/block/minecraft_collision_box.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:connection_rule": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Defines whether other blocks such as fences, walls, bars, and glass panes are allowed to connect to this block.Experimental toggles required: Upcoming Creator Features (in format versions before 1.26.0)",
+      "doc_ref": "docs/block/minecraft_connection_rule.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:crafting_table": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Makes your block into a custom crafting table which enables the crafting table UI and the ability to craft recipes. This component supports only \"recipe_shaped\" and \"recipe_shapeless\" typed recipes and not others like \"recipe_furnace\" or \"recipe_brewing_mix\". If there are two recipes for one item, the recipe book will pick the first that was parsed. If two input recipes are the same, crafting may assert and the resulting item may vary.",
+      "doc_ref": "docs/block/minecraft_crafting_table.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:custom_components": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Sets an ordered list of custom component names which are bound in script to be executed upon a block event.",
+      "doc_ref": "docs/block/minecraft_custom_components.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:destructible_by_explosion": {
+      "value_type": "boolean",
+      "default": true,
+      "example": true,
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": true,
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes the destructible by explosion properties for this block. If set to true, the block will have the default explosion resistance. If set to false, this block is indestructible by explosion. If the component is omitted, the block will have the default explosion resistance.",
+      "doc_ref": "docs/block/minecraft_destructible_by_explosion.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:destructible_by_mining": {
+      "value_type": "boolean",
+      "default": true,
+      "example": true,
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": true,
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes the destructible by mining properties for this block. If set to true, the block will take the default number of seconds to destroy. If set to false, this block is indestructible by mining. If the component is omitted, the block will take the default number of seconds to destroy.",
+      "doc_ref": "docs/block/minecraft_destructible_by_mining.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:destruction_particles": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Sets the particles that will be used when block is destroyed. This component can be omitted.",
+      "doc_ref": "docs/block/minecraft_destruction_particles.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:display_name": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Specifies the language file key that maps to what text will be displayed when you hover over the block in your inventory and hotbar. If the string given can not be resolved as a loc string, the raw string given will be displayed. If this component is omitted, the name of the block will be used as the display name.",
+      "doc_ref": "docs/block/minecraft_display_name.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:flammable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes the flammable properties for this block. If set to true, default values are used. If set to false, or if this component is omitted, the block will not be able to catch on fire naturally from neighbors, but it can still be directly ignited.",
+      "doc_ref": "docs/block/minecraft_flammable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:friction": {
+      "value_type": "float",
+      "default": 0.4,
+      "example": 0.4,
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": 0.4,
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes the friction for this block in a range of (0.0-0.9). Friction affects an entity's movement speed when it travels on the block. Greater value results in more friction.",
+      "doc_ref": "docs/block/minecraft_friction.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:geometry": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The description identifier of the geometry to use to render this block. This identifier must either match an existing geometry identifier in any of the loaded resource packs or be one of the currently supported Vanilla identifiers: \"minecraft:geometry.full_block\" or \"minecraft:geometry.cross\".",
+      "doc_ref": "docs/block/minecraft_geometry.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:item_visual": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The description identifier of the geometry and material used to render the item of this block.Experimental toggles required: Upcoming Creator Features (in format versions before 1.21.50)",
+      "doc_ref": "docs/block/minecraft_item_visual.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:light_dampening": {
+      "value_type": "integer",
+      "default": 15,
+      "example": 15,
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": 15,
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The amount that light will be dampened when it passes through the block, in a range (0-15). Higher value means the light will be dampened more.",
+      "doc_ref": "docs/block/minecraft_light_dampening.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:light_emission": {
+      "value_type": "integer",
+      "default": 0,
+      "example": 0,
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": 0,
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The amount of light this block will emit in a range (0-15). Higher value means more light will be emitted.",
+      "doc_ref": "docs/block/minecraft_light_emission.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:liquid_detection": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The definitions for how a block behaves when detecting liquid. Only one rule definition is allowed per liquid type - if multiple are specified, the first will be used and the rest will be ignored.Experimental toggles required: Upcoming Creator Features (in format versions before 1.21.60)",
+      "doc_ref": "docs/block/minecraft_liquid_detection.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:loot": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The path to the loot table, relative to the behavior pack. Path string is limited to 256 characters.",
+      "doc_ref": "docs/block/minecraft_loot.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:map_color": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Sets the color of the block when rendered to a map. If this component is omitted, the block will not show up on the map.",
+      "doc_ref": "docs/block/minecraft_map_color.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:material_instances": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The material instances for a block. Maps face or material_instance names in a geometry file to an actual material instance. You can assign a material instance object to any of these faces: \"up\", \"down\", \"north\", \"south\", \"east\", \"west\", or \"*\". You can also give an instance the name of your choosing such as \"my_instance\", and then assign it to a face by doing \"north\":\"my_instance\".",
+      "doc_ref": "docs/block/minecraft_material_instances.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:movable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The description identifier of the movable componentExperimental toggles required: Upcoming Creator Features (in format versions before 1.21.100)",
+      "doc_ref": "docs/block/minecraft_movable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_fall_on": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_fall_on.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_interact": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_interact.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_placed": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_placed.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_player_destroyed": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_player_destroyed.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_player_placing": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_player_placing.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_step_off": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_step_off.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_step_on": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_step_on.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:placement_filter": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Sets rules for under what conditions the block can be placed/survive",
+      "doc_ref": "docs/block/minecraft_placement_filter.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:precipitation_interactions": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Component that determines how the block will interact with rain and snowExperimental toggles required: Upcoming Creator Features (in format versions before 1.21.120)",
+      "doc_ref": "docs/block/minecraft_precipitation_interactions.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:queued_ticking": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Triggers the specified event, either once, or at a regular interval equal to a number of ticks randomly chosen from the interval_range provided.",
+      "doc_ref": "docs/block/minecraft_queued_ticking.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:random_ticking": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Triggers the specified event randomly based on the random tick speed gamerule. The random tick speed determines how often blocks are updated. Some other examples of game mechanics that use random ticking are crop growth and fire spreading.",
+      "doc_ref": "docs/block/minecraft_random_ticking.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:redstone_conductivity": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The basic redstone properties of a block; if the component is not provided the default values are used. Requires 1.21.30 format version and above.Experimental toggles required: Upcoming Creator Features (in format versions before 1.21.30)",
+      "doc_ref": "docs/block/minecraft_redstone_conductivity.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:redstone_consumer": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "A component describing how a block can consume and potentially propogate a redstone signal. This component is not available for block permutations.Experimental toggles required: Upcoming Creator Features (in format versions before 1.26.0)",
+      "doc_ref": "docs/block/minecraft_redstone_consumer.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:replaceable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "A block with this component can be replaced when another block is placed in the same block position.Experimental toggles required: Upcoming Creator Features (in format versions before 1.21.60)",
+      "doc_ref": "docs/block/minecraft_replaceable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:selection_box": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Defines the area of the block that is selected by the player's cursor. If set to true, default values are used. If set to false, this block is not selectable by the player's cursor. If this component is omitted, default values are used.",
+      "doc_ref": "docs/block/minecraft_selection_box.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:support": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Defines the support shape of the block. Currently only allows for blocks to have the same shape as a Vanilla fence and Vanilla stair. To work with custom stairs, requires the use of `minecraft:vertical_half` and `minecraft:cardinal_direction` or `minecraft:facing_direction` which can be set through the `minecraft:placement_direction` block trait. Custom blocks without this component will default to unit cube support.Experimental toggles required: Upcoming Creator Features (in format versions before 1.26.0)",
+      "doc_ref": "docs/block/minecraft_support.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:transformation": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "The block's translation, rotation and scale with respect to the center of its world position",
+      "doc_ref": "docs/block/minecraft_transformation.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:unit_cube": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.26.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.26.0.0/1.26.60.5",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.26.0）",
+      "description": "Specifies that a unit cube is to be used with tessellation.",
+      "doc_ref": "docs/block/minecraft_unit_cube.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    }
+  }
+}

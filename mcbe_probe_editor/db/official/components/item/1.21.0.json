@@ -1,0 +1,865 @@
+{
+  "kind": "item",
+  "format_version": "1.21.0",
+  "updated": "2026-11-16 20:07:39",
+  "components": {
+    "minecraft:allow_off_hand": {
+      "value_type": "object",
+      "default": {
+        "value": false
+      },
+      "example": {
+        "value": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The allow_off_hand component determines whether the item can be placed in the off hand slot of the inventory.",
+      "doc_ref": "docs/item/minecraft_allow_off_hand.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:block_placer": {
+      "value_type": "object",
+      "default": {
+        "use_on": []
+      },
+      "example": {
+        "use_on": []
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "use_on": []
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Items with the block_placer component will place a block when used.",
+      "doc_ref": "docs/item/minecraft_block_placer.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:can_destroy_in_creative": {
+      "value_type": "object",
+      "default": {
+        "value": false
+      },
+      "example": {
+        "value": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The can_destroy_in_creative component determines if the item can be used by a player to break blocks when in creative mode.",
+      "doc_ref": "docs/item/minecraft_can_destroy_in_creative.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:cooldown": {
+      "value_type": "object",
+      "default": {
+        "type": "use"
+      },
+      "example": {
+        "type": "use"
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "type": "use"
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Adds a cooldown to the item so that, after performing an action of the specified \"type\", all items with a \"minecraft:cooldown\" component in the same \"category\" become unable to perform that same type of action for the number of seconds defined in \"duration\".",
+      "doc_ref": "docs/item/minecraft_cooldown.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:damage": {
+      "value_type": "object",
+      "default": {
+        "value": 0
+      },
+      "example": {
+        "value": 0
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": 0
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The damage component determines how much extra damage the item does on attack.",
+      "doc_ref": "docs/item/minecraft_damage.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:digger": {
+      "value_type": "object",
+      "default": {
+        "destroy_speeds": [],
+        "use_efficiency": false
+      },
+      "example": {
+        "destroy_speeds": [],
+        "use_efficiency": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "destroy_speeds": [],
+            "use_efficiency": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Digger item component specifies how quickly this item can dig specific blocks.",
+      "doc_ref": "docs/item/minecraft_digger.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:display_name": {
+      "value_type": "object",
+      "default": {
+        "value": ""
+      },
+      "example": {
+        "value": ""
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": ""
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The display_name item component specifies the text shown whenever an item's name is displayed, like in hover text.",
+      "doc_ref": "docs/item/minecraft_display_name.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:durability": {
+      "value_type": "object",
+      "default": {
+        "damage_chance": {
+          "max": 100,
+          "min": 100
+        }
+      },
+      "example": {
+        "damage_chance": {
+          "max": 100,
+          "min": 100
+        }
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "damage_chance": {
+              "max": 100,
+              "min": 100
+            }
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The durability item component specifies how much damage the item takes before breaking, and allows the item to be combined to repair or augment them.",
+      "doc_ref": "docs/item/minecraft_durability.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:enchantable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The enchantable component specifies what enchantments can be applied to the item. Not all enchantments will have an effect on all item components.",
+      "doc_ref": "docs/item/minecraft_enchantable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:entity_placer": {
+      "value_type": "object",
+      "default": {
+        "dispense_on": [],
+        "entity": "",
+        "use_on": []
+      },
+      "example": {
+        "dispense_on": [],
+        "entity": "",
+        "use_on": []
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "dispense_on": [],
+            "entity": "",
+            "use_on": []
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The entity_placer item component specifies the blocks that the item can be placed on.",
+      "doc_ref": "docs/item/minecraft_entity_placer.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:food": {
+      "value_type": "object",
+      "default": {
+        "can_always_eat": false,
+        "nutrition": 0,
+        "saturation_modifier": 0.6000000238418579,
+        "using_converts_to": {}
+      },
+      "example": {
+        "can_always_eat": false,
+        "nutrition": 0,
+        "saturation_modifier": 0.6000000238418579,
+        "using_converts_to": {}
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "can_always_eat": false,
+            "nutrition": 0,
+            "saturation_modifier": 0.6000000238418579,
+            "using_converts_to": {}
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "When an item has a food component, it becomes edible to the player. Must have the 'minecraft:use_duration' component in order to function properly.",
+      "doc_ref": "docs/item/minecraft_food.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:fuel": {
+      "value_type": "object",
+      "default": {
+        "duration": 0.05000000074505806
+      },
+      "example": {
+        "duration": 0.05000000074505806
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "duration": 0.05000000074505806
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Fuel item component allows this item to be used as fuel in a furnace to 'cook' other items.",
+      "doc_ref": "docs/item/minecraft_fuel.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:glint": {
+      "value_type": "object",
+      "default": {
+        "value": false
+      },
+      "example": {
+        "value": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The glint component determines whether the item has the enchanted glint render effect on it.",
+      "doc_ref": "docs/item/minecraft_glint.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:hand_equipped": {
+      "value_type": "object",
+      "default": {
+        "value": false
+      },
+      "example": {
+        "value": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The hand_equipped component determines if an item is rendered like a tool while it is in a player's hand.",
+      "doc_ref": "docs/item/minecraft_hand_equipped.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:hover_text_color": {
+      "value_type": "object",
+      "default": {
+        "value": ""
+      },
+      "example": {
+        "value": ""
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": ""
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The hover_text_color component specifies the color of the item name when the players hovers the cursor over the item.",
+      "doc_ref": "docs/item/minecraft_hover_text_color.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:icon": {
+      "value_type": "object",
+      "default": {
+        "texture": ""
+      },
+      "example": {
+        "texture": ""
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "texture": ""
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "",
+      "doc_ref": "docs/item/minecraft_icon.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:interact_button": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "This component is a boolean or string that determines if the interact button is shown in touch controls and what text is displayed on the button. When set as true, default \"Use Item\" text will be displayed.",
+      "doc_ref": "docs/item/minecraft_interact_button.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:liquid_clipped": {
+      "value_type": "object",
+      "default": {
+        "value": false
+      },
+      "example": {
+        "value": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The liquid_clipped component determines whether the item interacts with liquid blocks on use.",
+      "doc_ref": "docs/item/minecraft_liquid_clipped.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:max_stack_size": {
+      "value_type": "object",
+      "default": {
+        "value": 1
+      },
+      "example": {
+        "value": 1
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": 1
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The max_stack_size component specifies how many of the item can be stacked together.",
+      "doc_ref": "docs/item/minecraft_max_stack_size.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:projectile": {
+      "value_type": "object",
+      "default": {
+        "minimum_critical_power": 0
+      },
+      "example": {
+        "minimum_critical_power": 0
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "minimum_critical_power": 0
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Projectile items shoot out, like an arrow.",
+      "doc_ref": "docs/item/minecraft_projectile.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:record": {
+      "value_type": "object",
+      "default": {
+        "comparator_signal": 1,
+        "duration": 0,
+        "sound_event": "undefined"
+      },
+      "example": {
+        "comparator_signal": 1,
+        "duration": 0,
+        "sound_event": "undefined"
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "comparator_signal": 1,
+            "duration": 0,
+            "sound_event": "undefined"
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Record Item Component. Used by record items to play music.",
+      "doc_ref": "docs/item/minecraft_record.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:repairable": {
+      "value_type": "object",
+      "default": {
+        "repair_items": []
+      },
+      "example": {
+        "repair_items": []
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "repair_items": []
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The repairable item component specifies which items can be used to repair this item, along with how much durability is gained.",
+      "doc_ref": "docs/item/minecraft_repairable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:shooter": {
+      "value_type": "object",
+      "default": {
+        "ammunition": [],
+        "charge_on_draw": false,
+        "max_draw_duration": 0,
+        "scale_power_by_draw_duration": false
+      },
+      "example": {
+        "ammunition": [],
+        "charge_on_draw": false,
+        "max_draw_duration": 0,
+        "scale_power_by_draw_duration": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "ammunition": [],
+            "charge_on_draw": false,
+            "max_draw_duration": 0,
+            "scale_power_by_draw_duration": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Shooter Item Component.",
+      "doc_ref": "docs/item/minecraft_shooter.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:should_despawn": {
+      "value_type": "object",
+      "default": {
+        "value": false
+      },
+      "example": {
+        "value": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Should_despawn component determines if the item should eventually despawn while floating in the world",
+      "doc_ref": "docs/item/minecraft_should_despawn.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:stacked_by_data": {
+      "value_type": "object",
+      "default": {
+        "value": false
+      },
+      "example": {
+        "value": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The stacked_by_data component determines whether the same items with different aux values can stack. Also defines whether the item entities can merge while floating in the world.",
+      "doc_ref": "docs/item/minecraft_stacked_by_data.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:tags": {
+      "value_type": "object",
+      "default": {
+        "tags": []
+      },
+      "example": {
+        "tags": []
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "tags": []
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "The tags component specifies which tags an item has on it.",
+      "doc_ref": "docs/item/minecraft_tags.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:throwable": {
+      "value_type": "object",
+      "default": {
+        "do_swing_animation": false,
+        "launch_power_scale": 1,
+        "max_draw_duration": 0,
+        "max_launch_power": 1,
+        "min_draw_duration": 0,
+        "scale_power_by_draw_duration": false
+      },
+      "example": {
+        "do_swing_animation": false,
+        "launch_power_scale": 1,
+        "max_draw_duration": 0,
+        "max_launch_power": 1,
+        "min_draw_duration": 0,
+        "scale_power_by_draw_duration": false
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "do_swing_animation": false,
+            "launch_power_scale": 1,
+            "max_draw_duration": 0,
+            "max_launch_power": 1,
+            "min_draw_duration": 0,
+            "scale_power_by_draw_duration": false
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Throwable items can be thrown by the player, such as a snowball.",
+      "doc_ref": "docs/item/minecraft_throwable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:use_animation": {
+      "value_type": "object",
+      "default": {
+        "value": "none"
+      },
+      "example": {
+        "value": "none"
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "value": "none"
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Use_animation specifies which animation is played when the player uses the item.",
+      "doc_ref": "docs/item/minecraft_use_animation.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:use_modifiers": {
+      "value_type": "object",
+      "default": {
+        "emit_vibrations": true,
+        "use_duration": 0
+      },
+      "example": {
+        "emit_vibrations": true,
+        "use_duration": 0
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "emit_vibrations": true,
+            "use_duration": 0
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Modifies use behavior, including how long the item takes to use and the player's movement speed.",
+      "doc_ref": "docs/item/minecraft_use_modifiers.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:wearable": {
+      "value_type": "object",
+      "default": {
+        "protection": 0
+      },
+      "example": {
+        "protection": 0
+      },
+      "examples": [
+        {
+          "label": "1.21.0",
+          "source": "official",
+          "value": {
+            "protection": 0
+          },
+          "origin": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+          "added": "2026-11-16 19:53:02"
+        }
+      ],
+      "note": "bedrock-samples json_schemas/server/item/1.20.50（最近可得）",
+      "description": "Wearable items can be worn by a player in the head, chest, legs, feet, or off-hand slots.",
+      "doc_ref": "docs/item/minecraft_wearable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    }
+  }
+}

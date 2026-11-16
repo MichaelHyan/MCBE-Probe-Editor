@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}{{ i18n_dict["index.title"] }} · {{ project_id }}{% endblock %}
+
+{% block topbar %}
+<nav class="crumbs">
+  <a href="{{ url_for('project.projects_page') }}" data-i18n="nav.projects">项目</a>
+  <span>/</span><strong>{{ project_id }}</strong>
+  <a class="btn small ghost" href="{{ url_for('browser.browser_page', project_id=project_id) }}" data-i18n="nav.browser">文件浏览</a>
+  <a class="btn small ghost" href="{{ url_for('structure.structures_page', project_id=project_id) }}" data-i18n="nav.structures">结构版本</a>
+  <a class="btn small ghost" href="{{ url_for('unbound.unbound_page', project_id=project_id) }}" data-i18n="nav.unbound">未绑定项</a>
+  <a class="btn small ghost" href="{{ url_for('db.database_page', project_id=project_id) }}" data-i18n="nav.database">组件数据库</a>
+  <a class="btn small ghost" href="{{ url_for('manifest.manifest_page', project_id=project_id) }}" data-i18n="nav.manifest">包信息</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 data-i18n="index.title">对象索引</h1>
+  <div id="stats" class="stats-row"></div>
+
+  <div class="toolbar">
+    <input id="flt-q" type="text" data-i18n-ph="index.search" placeholder="搜索 identifier / 名称 / 语言键">
+    <select id="flt-kind"><option value="" data-i18n="index.allKinds">全部类型</option></select>
+    <select id="flt-ns"><option value="" data-i18n="index.allNs">全部 namespace</option></select>
+    <button id="btn-new-obj" class="btn" data-i18n="index.newObject">新建对象</button>
+    <button id="btn-probe" class="btn" data-i18n="index.reprobe">重新探测</button>
+    <span class="spacer"></span>
+    <button id="btn-export" class="btn primary" data-i18n="index.export">导出</button>
+  </div>
+
+  <table class="table" id="obj-table">
+    <thead>
+      <tr>
+        <th data-i18n="index.th.kind">类型</th>
+        <th data-i18n="index.th.identifier">Identifier</th>
+        <th data-i18n="index.th.primary">主文件</th>
+        <th data-i18n="index.th.refs">引用</th>
+        <th data-i18n="index.th.status">状态</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <p class="muted" id="obj-count"></p>
+</section>
+
+<div id="export-modal" class="modal hidden">
+  <div class="modal-box" style="width:min(520px,92vw)">
+    <h3 data-i18n="index.exportTitle">导出</h3>
+    <p class="muted small" data-i18n="index.exportMode">选择导出模式</p>
+    <div class="export-opts">
+      <label class="export-opt">
+        <input type="radio" name="exp-mode" value="mcaddon" checked>
+        <div>
+          <div data-i18n="index.exportAddon">mcaddon</div>
+          <div class="desc">behavior + resource, .mcaddon</div>
+        </div>
+      </label>
+      <label class="export-opt">
+        <input type="radio" name="exp-mode" value="zip">
+        <div>
+          <div data-i18n="index.exportZip">zip</div>
+          <div class="desc">behavior + resource, .zip</div>
+        </div>
+      </label>
+      <label class="export-opt">
+        <input type="radio" name="exp-mode" value="changes">
+        <div>
+          <div data-i18n="index.exportChanges">changes</div>
+          <div class="desc">modified files only</div>
+        </div>
+      </label>
+    </div>
+    <div class="toolbar">
+      <button id="export-ok" class="btn primary" data-i18n="common.ok">确定</button>
+      <button id="export-cancel" class="btn ghost" data-i18n="common.cancel">取消</button>
+    </div>
+  </div>
+</div>
+
+<div id="new-obj-modal" class="modal hidden">
+  <div class="modal-box" style="width:min(560px,92vw)">
+    <h3 data-i18n="index.newObject">新建对象</h3>
+    <div class="form-card" style="margin:10px 0">
+      <label>kind
+        <select id="no-kind"></select>
+      </label>
+      <label>namespace
+        <input id="no-ns" type="text" placeholder="items" value="items">
+      </label>
+      <label>name
+        <input id="no-name" type="text" placeholder="my_item">
+      </label>
+      <label>format_version
+        <input id="no-fv" type="text" placeholder="1.21.50">
+      </label>
+      <label class="inline"><input id="no-res" type="checkbox" checked>
+        <span data-i18n="index.withResource">生成资源包注册</span></label>
+      <label class="inline"><input id="no-lang" type="checkbox" checked>
+        <span data-i18n="index.withLang">写入语言键</span></label>
+      <label class="inline"><input id="no-tex" type="checkbox">
+        <span data-i18n="index.withTexture">登记贴图索引</span></label>
+    </div>
+    <div class="toolbar">
+      <button id="no-create" class="btn primary" data-i18n="index.create">创建</button>
+      <button id="no-cancel" class="btn ghost" data-i18n="common.cancel">取消</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PROJECT_ID = {{ project_id|tojson }};</script>
+<script src="{{ url_for('static', filename='js/index.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

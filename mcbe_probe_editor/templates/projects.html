@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}MCBE Probe Editor{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 data-i18n="projects.title">项目</h1>
+  <p class="muted"><span data-i18n="projects.workspaceRoot">工作区根目录：</span><code>{{ workspace_root }}</code></p>
+
+  <div class="toolbar">
+    <button id="btn-create" class="btn primary" data-i18n="projects.createFromDir">从目录创建</button>
+    <button id="btn-upload" class="btn" data-i18n="projects.importZip">导入 mcaddon / zip</button>
+    <button id="btn-refresh" class="btn ghost" data-i18n="common.refresh">刷新</button>
+  </div>
+
+  <div id="create-form" class="form-card hidden">
+    <h3 data-i18n="projects.formDirTitle">从本地目录创建</h3>
+    <label><span data-i18n="projects.name">项目名称</span>
+      <input id="f-name" type="text" data-i18n-ph="projects.nameHint" placeholder="例如 Taoism"></label>
+    <label><span data-i18n="projects.behavior">行为包目录</span>
+      <input id="f-behavior" type="text" placeholder="D:/.../Taoism_B"></label>
+    <label><span data-i18n="projects.resource">资源包目录</span>
+      <input id="f-resource" type="text" placeholder="D:/.../Taoism_R"></label>
+    <label class="inline"><input id="f-copy" type="checkbox" checked>
+      <span data-i18n="projects.copy">复制到工作区（推荐）</span></label>
+    <div class="toolbar">
+      <button id="btn-create-submit" class="btn primary" data-i18n="projects.createAndProbe">创建并探测</button>
+      <button id="btn-create-cancel" class="btn ghost" data-i18n="common.cancel">取消</button>
+    </div>
+  </div>
+
+  <div id="upload-form" class="form-card hidden">
+    <h3 data-i18n="projects.formZipTitle">导入 mcaddon / zip</h3>
+    <label><span data-i18n="projects.optionalName">项目名称（可选）</span>
+      <input id="f-up-name" type="text" data-i18n-ph="projects.nameLeaveEmpty" placeholder="留空则用文件名"></label>
+    <label><span data-i18n="projects.file">文件</span>
+      <input id="f-up-file" type="file" accept=".mcaddon,.zip"></label>
+    <div class="toolbar">
+      <button id="btn-upload-submit" class="btn primary" data-i18n="projects.uploadAndProbe">上传并探测</button>
+      <button id="btn-upload-cancel" class="btn ghost" data-i18n="common.cancel">取消</button>
+    </div>
+  </div>
+
+  {% if projects %}
+  <table class="table" id="project-table">
+    <thead>
+      <tr>
+        <th data-i18n="projects.th.name">名称</th>
+        <th data-i18n="projects.th.id">ID</th>
+        <th data-i18n="projects.th.objects">对象数</th>
+        <th data-i18n="projects.th.created">创建时间</th>
+        <th data-i18n="projects.th.actions">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for p in projects %}
+      <tr>
+        <td>{{ p.name }}</td>
+        <td><code>{{ p.project_id }}</code></td>
+        <td>{{ p._objects }}</td>
+        <td class="muted">{{ p.created }}</td>
+        <td>
+          <a class="btn small" href="{{ url_for('index.index_page', project_id=p.project_id) }}" data-i18n="projects.open">打开</a>
+          <button class="btn small danger" data-del="{{ p.project_id }}" data-i18n="common.delete">删除</button>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty" data-i18n="projects.empty">暂无项目，先创建一个。</p>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/projects.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

@@ -1,0 +1,637 @@
+{
+  "kind": "block",
+  "format_version": "1.16.0",
+  "updated": "2026-11-16 20:07:39",
+  "components": {
+    "minecraft:block_light_absorption": {
+      "value_type": "integer",
+      "default": 0,
+      "example": 0,
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": 0,
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "The amount of light this block will absorb.",
+      "doc_ref": "docs/block/minecraft_block_light_absorption.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:block_light_emission": {
+      "value_type": "float",
+      "default": 0.0,
+      "example": 0.0,
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": 0.0,
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "The amount of light this block will emit in a range [0.0, 1.0].",
+      "doc_ref": "docs/block/minecraft_block_light_emission.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:breakonpush": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "When pushed by a piston the block breaks",
+      "doc_ref": "docs/block/minecraft_breakonpush.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:breathability": {
+      "value_type": "string",
+      "default": "solid",
+      "example": "solid",
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": "solid",
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Property describing the breathability of this block and whether it is treated as a solid or as air.",
+      "doc_ref": "docs/block/minecraft_breathability.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:destroy_time": {
+      "value_type": "float",
+      "default": 0.0,
+      "example": 0.0,
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": 0.0,
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Sets the destroy time property for the block. Greater numbers result in greater mining times.",
+      "doc_ref": "docs/block/minecraft_destroy_time.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:display_name": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Specifies the display name id for the block.",
+      "doc_ref": "docs/block/minecraft_display_name.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:entity_collision": {
+      "value_type": "boolean",
+      "default": false,
+      "example": false,
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": false,
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Can only be set to false, it disables the collision of the block with entities",
+      "doc_ref": "docs/block/minecraft_entity_collision.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:explosion_resistance": {
+      "value_type": "float",
+      "default": 0.0,
+      "example": 0.0,
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": 0.0,
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Sets the explosion resistance for this block.",
+      "doc_ref": "docs/block/minecraft_explosion_resistance.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:flammable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes the flammable properties for this block.",
+      "doc_ref": "docs/block/minecraft_flammable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:friction": {
+      "value_type": "float",
+      "default": 0.1,
+      "example": 0.1,
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": 0.1,
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Property describing the friction for this block. Friction effects an entities movements when it walks on the block.",
+      "doc_ref": "docs/block/minecraft_friction.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:geometry": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "The geometry definition name to use.",
+      "doc_ref": "docs/block/minecraft_geometry.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:immovable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "An Immovable block cannot be pushed by pistons",
+      "doc_ref": "docs/block/minecraft_immovable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:map_color": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "A color represented as a hex value. This will be the color rendered to a map.",
+      "doc_ref": "docs/block/minecraft_map_color.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:material_instances": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Maps face or material_instance names in a geometry file to an actual material instance. Material instance can either be a full material instance or a name to another already defined instance",
+      "doc_ref": "docs/block/minecraft_material_instances.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_fall_on": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_fall_on.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_interact": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_interact.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_placed": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_placed.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_player_destroyed": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_player_destroyed.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_player_placing": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_player_placing.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_step_off": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_step_off.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:on_step_on": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes event for this block.",
+      "doc_ref": "docs/block/minecraft_on_step_on.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:onlypistonpush": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Blocks with those components won't stick to stickyPistons",
+      "doc_ref": "docs/block/minecraft_onlypistonpush.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:pick_collision": {
+      "value_type": "boolean",
+      "default": false,
+      "example": false,
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": false,
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Can only be set to false, it disables the collision of the block with entities",
+      "doc_ref": "docs/block/minecraft_pick_collision.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:placement_filter": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Sets rules for under what conditions the block can be placed/survive",
+      "doc_ref": "docs/block/minecraft_placement_filter.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:preventsjumping": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "this component makes it so actors can't jump when walking on this block",
+      "doc_ref": "docs/block/minecraft_preventsjumping.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:random_ticking": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes the component that will trigger an even at a regular interval between two values",
+      "doc_ref": "docs/block/minecraft_random_ticking.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:rotation": {
+      "value_type": "string",
+      "default": "rotation[0, 0, 0]",
+      "example": "rotation[0, 0, 0]",
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": "rotation[0, 0, 0]",
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "This is the block's rotation around the center of the cube in degrees. The rotation order is x-y-z.",
+      "doc_ref": "docs/block/minecraft_rotation.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:ticking": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Describes the component that will trigger an even at a regular interval between two values",
+      "doc_ref": "docs/block/minecraft_ticking.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:unit_cube": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "Specifies that a unit cube is to be used with tessellation.",
+      "doc_ref": "docs/block/minecraft_unit_cube.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    },
+    "minecraft:unwalkable": {
+      "value_type": "object",
+      "default": {},
+      "example": {},
+      "examples": [
+        {
+          "label": "1.16.0",
+          "source": "official",
+          "value": {},
+          "origin": "bedrock.dev 1.16.0.0/1.16.100.60",
+          "added": "2026-11-16 19:49:56"
+        }
+      ],
+      "note": "bedrock.dev 官方文档（1.16.0）",
+      "description": "this component sets a block as unwalkable. Most mobs will not try to jump over it if the value is set to true",
+      "doc_ref": "docs/block/minecraft_unwalkable.md",
+      "verified": true,
+      "source": "manual",
+      "added_in": null,
+      "deprecated": false
+    }
+  }
+}

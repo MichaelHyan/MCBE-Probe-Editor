@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{{ i18n_dict["paint.title"] }} · {{ project_id }}{% endblock %}
+
+{% block topbar %}
+<nav class="crumbs">
+  <a href="{{ url_for('project.projects_page') }}" data-i18n="nav.projects">项目</a>
+  <span>/</span>
+  <a href="{{ url_for('index.index_page', project_id=project_id) }}">{{ project_id }}</a>
+  <span>/</span><strong data-i18n="nav.paint">像素画</strong>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="panel">
+  <h1 data-i18n="paint.title">像素画绘制器</h1>
+
+  <div class="toolbar">
+    <label class="inline"><span data-i18n="paint.pack">包</span>
+      <select id="p-pack">
+        <option value="resource">resource</option>
+        <option value="behavior">behavior</option>
+      </select>
+    </label>
+    <label class="inline"><span data-i18n="paint.path">路径</span>
+      <input id="p-path" type="text" placeholder="textures/items/xxx.png" style="width:280px"></label>
+    <button id="p-load" class="btn" data-i18n="paint.load">载入</button>
+  </div>
+
+  <div class="paint-wrap">
+    <div class="paint-tools">
+      <div class="tool-block">
+        <label class="inline"><span data-i18n="paint.color">颜色</span>
+          <input id="p-color" type="color" value="#ffffff">
+        </label>
+        <div id="p-swatch" class="swatches"></div>
+      </div>
+
+      <div class="tool-block">
+        <div class="muted small" data-i18n="paint.recent">最近颜色</div>
+        <div id="p-recent" class="recent-box"></div>
+      </div>
+
+      <div class="tool-block">
+        <label class="inline"><input id="p-eraser" type="checkbox">
+          <span data-i18n="paint.eraser">橡皮（透明）</span></label>
+        <label class="inline"><input id="p-gray" type="checkbox">
+          <span data-i18n="paint.gray">去色</span></label>
+      </div>
+
+      <div class="tool-block">
+        <div class="muted small" data-i18n="paint.canvas">画布</div>
+        <div class="size-row">
+          <span data-i18n="paint.width">宽</span>
+          <input id="p-width" type="number" min="1" max="256" value="16">
+          <span data-i18n="paint.height">高</span>
+          <input id="p-height" type="number" min="1" max="256" value="16">
+          <button id="p-new" class="btn small" data-i18n="paint.applySize">应用尺寸</button>
+        </div>
+        <p class="muted small" data-i18n="paint.sizeHint">1-256</p>
+      </div>
+
+      <div class="tool-block">
+        <div class="toolbar" style="margin:0">
+          <button id="p-undo" class="btn small" data-i18n="paint.undo">撤回</button>
+          <button id="p-redo" class="btn small" data-i18n="paint.redo">重做</button>
+        </div>
+      </div>
+
+      <p class="muted small" data-i18n="paint.rule">规则：不允许绘制半透明像素；已有的半透明像素会原样保留。</p>
+      <button id="p-save" class="btn primary" data-i18n="paint.save">保存</button>
+      <p id="p-info" class="muted small"></p>
+    </div>
+    <div class="paint-canvas">
+      <canvas id="p-canvas" width="16" height="16"></canvas>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PROJECT_ID = {{ project_id|tojson }};</script>
+<script src="{{ url_for('static', filename='js/paint.js') }}?v={{ static_ver }}"></script>
+{% endblock %}

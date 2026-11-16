@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ app_name | default('MCBE Probe Editor') }}{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}?v={{ static_ver }}">
+<script>
+window.UI_LANG = {{ ui_lang|tojson }};
+window.I18N_DICT = {{ i18n_dict|tojson }};
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><a href="{{ url_for('project.projects_page') }}">MCBE Probe Editor</a></div>
+  <div class="topbar-right">
+    {% block topbar %}{% endblock %}
+    <select id="ui-lang-select" class="lang-select" title="Language">
+      {% for l in ui_langs %}
+      <option value="{{ l.code }}" {% if l.code == ui_lang %}selected{% endif %}>{{ l.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</header>
+<main class="container">
+{% block content %}{% endblock %}
+</main>
+<div id="toast" class="toast"></div>
+<script src="{{ url_for('static', filename='js/i18n.js') }}?v={{ static_ver }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}?v={{ static_ver }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

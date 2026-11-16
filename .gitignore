@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.tmp
+
+# 工作区（导入的包副本、临时库、导出产物）
+mcbe_probe_editor/workspaces/
+
+# 测试产物
+test_out.txt
+st_test.txt
+index_test.json
+
+# 导出产物（工程根 output/）
+output/
