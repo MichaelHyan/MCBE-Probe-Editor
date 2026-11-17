@@ -22,6 +22,12 @@ MCBE Probe Editor - 探测原型
   v4: 修复 controller.animation.* 误入 anim_bind（按前缀分离 anim/ctrl）；
       收集 description.scripts.animate；配方 result 支持数组；
       原版结果(minecraft:)归入 vanilla_recipes，不再报 unbound
+  v5: 方块材质链(blocks.json -> terrain_texture -> png)、material_instances；
+      模型(.geo.json)按 geometry 标识定位到实际文件；
+      feature / feature_rules 两遍关联(块 <- feature <- feature_rule)；
+      attachable 的动画/控制器单独归槽；
+      输出 slots(固定关联位置)，由 services/slots.py 聚合；
+      unbound 中已被引用的文件自动剔除
 """
 
 import argparse
@@ -30,6 +36,8 @@ import os
 import re
 import sys
 from collections import OrderedDict
+
+from . import slots as slots_mod
 
 SKIP_DIRS = {".git", "_fv2_backup", "__pycache__", ".idea", ".vscode"}
 SKIP_SUFFIX = (".bak", ".bk", ".tmp")
@@ -43,7 +51,7 @@ TOP_KINDS = OrderedDict([
 ])
 
 SPECIAL_ICONS = {"pack_icon.png", "pack_icon1.png"}
-CONFIG_FILES = {"blocks.json", "sounds.json", "sound_definitions.json"}
+CONFIG_FILES = {"sounds.json", "sound_definitions.json"}
 TEX_INDEX_FILES = {"item_texture.json", "terrain_texture.json"}
 
 LANG_PREFIXES = [
@@ -138,6 +146,38 @@ VANILLA_CTRL_PREFIXES = tuple(
     "controller.animation.firstperson.",
     "controller.animation.elytra",
     "controller.animation.spear.",
+)
+
+VANILLA_GEOMETRY_PREFIXES = (
+    "geometry.humanoid",
+    "geometry.player",
+    "geometry.zombie",
+    "geometry.armor_stand",
+    "geometry.arrow",
+    "geometry.bat",
+    "geometry.blaze",
+    "geometry.chicken",
+    "geometry.cow",
+    "geometry.creeper",
+    "geometry.dragon",
+    "geometry.enderman",
+    "geometry.ghast",
+    "geometry.irongolem",
+    "geometry.llama",
+    "geometry.parrot",
+    "geometry.pig",
+    "geometry.sheep",
+    "geometry.shulker",
+    "geometry.skeleton",
+    "geometry.slime",
+    "geometry.spider",
+    "geometry.squid",
+    "geometry.villager",
+    "geometry.witch",
+    "geometry.wither",
+    "geometry.wolf",
+    "geometry.default",
+    "geometry.unknown",
 )
 
 VANILLA_TEXTURE_KEYS = {
@@ -275,6 +315,31 @@ def icon_keys(components):
     return out
 
 
+def material_instance_keys(components):
+    """1.21+ 方块的材质实例里的纹理键。"""
+    keys = []
+    if not isinstance(components, dict):
+        return keys
+    mi = components.get("minecraft:material_instances")
+    if isinstance(mi, dict):
+        for val in mi.values():
+            if isinstance(val, dict):
+                t = val.get("texture")
+                if isinstance(t, str):
+                    keys.append(t)
+                elif isinstance(t, dict):
+                    p = t.get("path")
+                    if isinstance(p, str):
+                        keys.append(p)
+            elif isinstance(val, str):
+                keys.append(val)
+    out = []
+    for k in keys:
+        if k not in out:
+            out.append(k)
+    return out
+
+
 def find_loot(node, acc):
     if isinstance(node, dict):
         for k, v in node.items():
@@ -296,25 +361,31 @@ def is_vanilla_ctrl(name):
     return any(name.startswith(p) for p in VANILLA_CTRL_PREFIXES)
 
 
+def is_vanilla_geometry(name):
+    return any(name.startswith(p) for p in VANILLA_GEOMETRY_PREFIXES)
+
+
 def push(extra, bucket, name):
     arr = extra.setdefault(bucket, [])
     if isinstance(name, str) and name not in arr:
         arr.append(name)
 
 
-def collect_anim_refs(desc, extra):
-    """从 description 收集 animation / animation_controller 引用，按前缀分离。"""
+def collect_anim_refs(desc, extra, prefix=""):
+    """从 description 收集 animation / animation_controller 引用，按前缀分离。
+
+    prefix 用于把 attachable 的引用与实体引用分到不同桶。
+    """
     anims = desc.get("animations")
     if isinstance(anims, dict):
         for k2, v2 in anims.items():
             if isinstance(v2, str):
                 if v2.startswith("controller.animation."):
-                    push(extra, "ctrl_bind", v2)
+                    push(extra, prefix + "ctrl_bind", v2)
                 elif v2.startswith("animation."):
-                    push(extra, "anim_bind", v2)
-            # key 本身若是完整动画名（少见），也收集
+                    push(extra, prefix + "anim_bind", v2)
             if isinstance(k2, str) and k2.startswith("animation."):
-                push(extra, "anim_bind", k2)
+                push(extra, prefix + "anim_bind", k2)
 
     scripts = desc.get("scripts")
     if isinstance(scripts, dict):
@@ -323,26 +394,40 @@ def collect_anim_refs(desc, extra):
             for a in animate:
                 if isinstance(a, str):
                     if a.startswith("controller.animation."):
-                        push(extra, "ctrl_bind", a)
+                        push(extra, prefix + "ctrl_bind", a)
                     elif a.startswith("animation."):
-                        push(extra, "anim_bind", a)
-                    # 短名指向 description.animations 的 key，已由上面覆盖
+                        push(extra, prefix + "anim_bind", a)
                 elif isinstance(a, dict):
                     for kk in a:
                         if not isinstance(kk, str):
                             continue
                         if kk.startswith("controller.animation."):
-                            push(extra, "ctrl_bind", kk)
+                            push(extra, prefix + "ctrl_bind", kk)
                         elif kk.startswith("animation."):
-                            push(extra, "anim_bind", kk)
+                            push(extra, prefix + "anim_bind", kk)
         elif isinstance(animate, dict):
             for kk in animate:
                 if not isinstance(kk, str):
                     continue
                 if kk.startswith("controller.animation."):
-                    push(extra, "ctrl_bind", kk)
+                    push(extra, prefix + "ctrl_bind", kk)
                 elif kk.startswith("animation."):
-                    push(extra, "anim_bind", kk)
+                    push(extra, prefix + "anim_bind", kk)
+
+
+def collect_render_controllers(desc, extra):
+    rcs = desc.get("render_controllers")
+    names = []
+    if isinstance(rcs, list):
+        for r in rcs:
+            if isinstance(r, str):
+                names.append(r)
+            elif isinstance(r, dict):
+                names.extend([k for k in r if isinstance(k, str)])
+    elif isinstance(rcs, dict):
+        names.extend([k for k in rcs if isinstance(k, str)])
+    for n in names:
+        push(extra, "rc_bind", n)
 
 
 # ---------------------------------------------------------------- 探测器
@@ -368,11 +453,16 @@ class Probe(object):
         self._tex = {}
         self._anim = {}
         self._ctrl = {}
+        self._render = {}
+        self._geo = {}
         self._extras = {}
         self._notes = {}
         self._lang_text = {}
         self._lang_by_locale = {}
         self._recipe_fallback = []
+        self._blocks_json = []
+        self._features = []
+        self._feature_rules = []
 
     # ------------------------------------------------------------ 入口
     def run(self, bp_dir, rp_dir):
@@ -388,9 +478,12 @@ class Probe(object):
         self.build_objects()
         self.resolve_other()
         self.parse_texture_index()
+        self.link_features()
+        self.link_block_materials()
         self.resolve_lang()
         self.resolve_recipe_fallback()
         self.link_assets()
+        self.link_item_textures()
         self.link_animations()
         self.finalize()
 
@@ -417,6 +510,12 @@ class Probe(object):
             return
         if base in TEX_INDEX_FILES:
             self._texidx.append((pack, rel, ap))
+            return
+        if base == "blocks.json":
+            data = read_json(ap)
+            if isinstance(data, dict) and "__error__" not in data:
+                self._blocks_json.append({
+                    "pack": pack, "path": rel, "data": data, "fv": fv_of(data)})
             return
         if base in CONFIG_FILES:
             self._other.append((pack, rel, ap, None))
@@ -451,13 +550,37 @@ class Probe(object):
         ctrls = data.get("animation_controllers")
         if isinstance(ctrls, dict):
             for name in ctrls:
-                self._ctrl.setdefault(
-                    name, {"pack": pack, "path": rel, "format_version": fv})
+                # 同名控制器在行为包 / 资源包中是两个独立物，按 pack 分开记录
+                bucket = self._ctrl.setdefault(name, {})
+                bucket.setdefault(pack, {
+                    "pack": pack, "path": rel, "format_version": fv})
         anims = data.get("animations")
         if isinstance(anims, dict):
             for name in anims:
                 self._anim.setdefault(
                     name, {"pack": pack, "path": rel, "format_version": fv})
+        rcs = data.get("render_controllers")
+        if isinstance(rcs, dict):
+            for name in rcs:
+                self._render.setdefault(
+                    name, {"pack": pack, "path": rel, "format_version": fv})
+
+        # 模型：1.16+ minecraft:geometry[] / 1.12 键名
+        geos = data.get("minecraft:geometry")
+        if isinstance(geos, list):
+            for item in geos:
+                if not isinstance(item, dict):
+                    continue
+                desc = item.get("description")
+                if isinstance(desc, dict):
+                    gid = desc.get("identifier")
+                    if isinstance(gid, str):
+                        self._geo.setdefault(gid, {
+                            "pack": pack, "path": rel, "format_version": fv})
+        for key in data:
+            if isinstance(key, str) and key.startswith("geometry."):
+                self._geo.setdefault(key, {
+                    "pack": pack, "path": rel, "format_version": fv})
 
     def special(self, pack, rel, reason):
         self.special_files.append({"pack": pack, "path": rel, "reason": reason})
@@ -552,6 +675,10 @@ class Probe(object):
         for k in icon_keys(comps):
             push(extra, "icon_keys", k)
 
+        if cand["kind"] == "block":
+            for k in material_instance_keys(comps):
+                push(extra, "block_texture_keys", k)
+
         loot = []
         find_loot(comps, loot)
         for lp in loot:
@@ -585,7 +712,11 @@ class Probe(object):
                 for v in geo.values():
                     if isinstance(v, str):
                         push(extra, "geometries", v)
-            collect_anim_refs(desc, extra)
+            collect_render_controllers(desc, extra)
+            if cand["role"] == "attachable":
+                collect_anim_refs(desc, extra, prefix="attachable_")
+            else:
+                collect_anim_refs(desc, extra)
 
     def add_ref(self, ident, ref):
         obj = self.objects.get(ident)
@@ -621,7 +752,7 @@ class Probe(object):
                 continue
             if self.handle_spawn(pack, rel, data):
                 continue
-            if self.handle_feature(pack, rel, data):
+            if self.collect_feature(pack, rel, data):
                 continue
             if os.path.basename(low) in CONFIG_FILES:
                 self.special(pack, rel, "pack_config")
@@ -637,7 +768,6 @@ class Probe(object):
                 ("animation", "animations/"),
                 ("render_controller", "render_controllers/"),
                 ("particle", "particles/"),
-                ("model", "models/"),
                 ("material", "materials/"),
                 ("function", "functions/"),
             ):
@@ -650,7 +780,8 @@ class Probe(object):
                     "format_version": fv_of(data)})
                 continue
 
-            if "animation_controllers" in data or "animations" in data:
+            if "animation_controllers" in data or "animations" in data \
+                    or "render_controllers" in data:
                 continue
 
             self.unbound.append({"kind": "unknown", "pack": pack,
@@ -727,42 +858,6 @@ class Probe(object):
                                  "format_version": fv_of(data)})
         return True
 
-    def handle_feature(self, pack, rel, data):
-        if "minecraft:feature_rules" in data:
-            body = data["minecraft:feature_rules"]
-            desc = body.get("description") or {} if isinstance(body, dict) else {}
-            places = desc.get("places_feature")
-            target = places if isinstance(places, str) else None
-            if target and target in self.objects:
-                self.add_ref(target, {"role": "feature_rule", "pack": pack,
-                                      "path": rel, "format_version": fv_of(data)})
-            else:
-                self.unbound.append({"kind": "feature_rule", "pack": pack,
-                                     "path": rel, "target": target,
-                                     "format_version": fv_of(data)})
-            return True
-
-        feat_keys = [k for k in data if k.startswith("minecraft:")
-                     and k.endswith("_feature")]
-        if feat_keys:
-            body = data[feat_keys[0]]
-            desc = body.get("description") or {} if isinstance(body, dict) else {}
-            ident = desc.get("identifier")
-            target = None
-            if isinstance(body, dict):
-                rb = body.get("replace_rules")
-                if isinstance(rb, list) and rb and isinstance(rb[0], dict):
-                    target = rb[0].get("places_block")
-            if isinstance(target, str) and target in self.objects:
-                self.add_ref(target, {"role": "feature", "pack": pack,
-                                      "path": rel, "format_version": fv_of(data)})
-            else:
-                self.unbound.append({"kind": "feature", "pack": pack,
-                                     "path": rel, "identifier": ident,
-                                     "format_version": fv_of(data)})
-            return True
-        return False
-
     def handle_sounds(self, pack, rel, data):
         es = data.get("entity_sounds")
         if not isinstance(es, dict):
@@ -775,6 +870,83 @@ class Probe(object):
                 self.add_ref(ident, {"role": "sounds", "pack": pack,
                                      "path": rel})
         return True
+
+    def collect_feature(self, pack, rel, data):
+        """只收集，等所有对象与定义齐了再统一关联(两遍)。"""
+        if "minecraft:feature_rules" in data:
+            body = data["minecraft:feature_rules"]
+            self._feature_rules.append({
+                "pack": pack, "path": rel, "fv": fv_of(data),
+                "body": body if isinstance(body, dict) else {}})
+            return True
+
+        feat_keys = [k for k in data if k.startswith("minecraft:")
+                     and k.endswith("_feature")]
+        if feat_keys:
+            body = data[feat_keys[0]]
+            self._features.append({
+                "pack": pack, "path": rel, "fv": fv_of(data),
+                "key": feat_keys[0],
+                "body": body if isinstance(body, dict) else {}})
+            return True
+        return False
+
+    @staticmethod
+    def _places_block(body):
+        rules = body.get("replace_rules")
+        if isinstance(rules, list) and rules and isinstance(rules[0], dict):
+            pb = rules[0].get("places_block")
+            if isinstance(pb, str):
+                return pb
+            if isinstance(pb, dict):
+                nm = pb.get("name")
+                if isinstance(nm, str):
+                    return nm
+        return None
+
+    def link_features(self):
+        """两遍关联：block <- feature(replace_rules.places_block)，再 block <- feature_rule。"""
+        feat_target = {}
+        for f in self._features:
+            body = f["body"]
+            desc = body.get("description") or {}
+            fid = desc.get("identifier")
+            places = self._places_block(body)
+            target = None
+            if isinstance(places, str) and places in self.objects:
+                target = places
+            if isinstance(fid, str) and target:
+                feat_target.setdefault(fid, target)
+            if target:
+                self.add_ref(target, {
+                    "role": "feature", "pack": f["pack"], "path": f["path"],
+                    "format_version": f["fv"], "identifier": fid,
+                    "feature_type": f.get("key")})
+            else:
+                self.unbound.append({
+                    "kind": "feature", "pack": f["pack"], "path": f["path"],
+                    "identifier": fid, "format_version": f["fv"]})
+
+        for r in self._feature_rules:
+            body = r["body"]
+            desc = body.get("description") or {}
+            pf = desc.get("places_feature")
+            rid = desc.get("identifier")
+            target = None
+            if isinstance(pf, str):
+                target = feat_target.get(pf)
+                if target is None and pf in self.objects:
+                    target = pf
+            if target:
+                self.add_ref(target, {
+                    "role": "feature_rule", "pack": r["pack"],
+                    "path": r["path"], "format_version": r["fv"],
+                    "identifier": rid, "places_feature": pf})
+            else:
+                self.unbound.append({
+                    "kind": "feature_rule", "pack": r["pack"],
+                    "path": r["path"], "target": pf,
+                    "format_version": r["fv"]})
 
     # ------------------------------------------------------------ 贴图索引
     def parse_texture_index(self):
@@ -800,7 +972,57 @@ class Probe(object):
                 for p in paths:
                     self._tex.setdefault(key, []).append(
                         {"pack": pack, "index": rel, "path": norm(p)})
-            self.special(pack, rel, "texture_index")
+
+    # ------------------------------------------------------------ 方块材质链
+    def link_block_materials(self):
+        """blocks.json 键 + material_instances 纹理键 -> terrain_texture -> png。"""
+        for ident, extra in self._extras.items():
+            obj = self.objects.get(ident)
+            if obj is None or obj.get("kind") != "block":
+                continue
+
+            keys = list(extra.get("block_texture_keys") or [])
+
+            for ent in self._blocks_json:
+                entry = (ent.get("data") or {}).get(ident)
+                if not isinstance(entry, dict):
+                    continue
+                tkeys = []
+                tex = entry.get("textures")
+                if isinstance(tex, str):
+                    tkeys.append(tex)
+                elif isinstance(tex, dict):
+                    for v in tex.values():
+                        if isinstance(v, str) and v not in tkeys:
+                            tkeys.append(v)
+                elif isinstance(tex, list):
+                    tkeys.extend([v for v in tex
+                                  if isinstance(v, str) and v not in tkeys])
+                self.add_ref(ident, {
+                    "role": "blocks_json", "pack": ent["pack"],
+                    "path": ent["path"], "format_version": ent["fv"],
+                    "keys": tkeys})
+                for k in tkeys:
+                    if k not in keys:
+                        keys.append(k)
+
+            for key in keys:
+                entries = self._tex.get(key, [])
+                if not entries:
+                    if key in VANILLA_TEXTURE_KEYS:
+                        self.note(ident, "vanilla_texture_key: %s" % key)
+                    else:
+                        self.note(ident, "block_texture_key_missing: %s" % key)
+                    continue
+                for ent in entries:
+                    p = self.resolve_asset(ent["pack"], ent["path"])
+                    self.add_ref(ident, {
+                        "role": "terrain_texture", "pack": ent["pack"],
+                        "path": ent["index"], "keys": [key]})
+                    self.add_ref(ident, {
+                        "role": "block_texture", "pack": ent["pack"],
+                        "path": p or ent["path"], "keys": [key],
+                        "resolved": p is not None})
 
     # ------------------------------------------------------------ 语言
     def resolve_lang(self):
@@ -899,38 +1121,114 @@ class Probe(object):
                     "path": p or norm(raw), "resolved": p is not None})
 
             for geo in extra.get("geometries", []):
-                self.add_ref(ident, {"role": "geometry", "name": geo})
+                info = self._geo.get(geo)
+                if info:
+                    self.add_ref(ident, {
+                        "role": "geometry", "pack": info["pack"],
+                        "path": info["path"],
+                        "format_version": info["format_version"],
+                        "name": geo, "resolved": True})
+                else:
+                    self.add_ref(ident, {
+                        "role": "geometry", "name": geo, "resolved": False})
+                    if is_vanilla_geometry(geo):
+                        self.note(ident, "vanilla_geometry_ref: %s" % geo)
+                    else:
+                        self.add_warning(ident, "geometry_missing: %s" % geo)
+
+    def link_item_textures(self):
+        """物品贴图兜底：按对象名匹配 item_texture 键与约定 png 路径。
+
+        新建物品的主文件是空模板，没有 minecraft:icon 组件时无法走 icon 反查，
+        这里按「索引键 == 对象名」或「textures/items/<ns>/<name>.png 存在」补挂。
+        add_ref 会按 role+pack+path 去重，不会和 icon 链路重复。
+        """
+        files = self._files.get("resource", set())
+        for ident, obj in self.objects.items():
+            if obj.get("kind") != "item":
+                continue
+            ns, _, name = ident.partition(":")
+            covered = False
+
+            for ent in self._tex.get(name, []):
+                p = self.resolve_asset(ent["pack"], ent["path"])
+                self.add_ref(ident, {
+                    "role": "texture_index", "pack": ent["pack"],
+                    "path": ent["index"], "keys": [name]})
+                self.add_ref(ident, {
+                    "role": "texture", "pack": ent["pack"],
+                    "path": p or ent["path"], "keys": [name],
+                    "resolved": p is not None})
+                covered = True
+
+            if covered:
+                continue
+
+            cand = "textures/items/%s/%s.png" % (ns, name)
+            if cand in files:
+                self.add_ref(ident, {
+                    "role": "texture", "pack": "resource",
+                    "path": cand, "resolved": True})
 
     def link_animations(self):
         for ident, extra in self._extras.items():
             if ident not in self.objects:
                 continue
-            for name in extra.get("ctrl_bind", []):
-                info = self._ctrl.get(name)
+            self._link_anim_group(ident, extra, "ctrl_bind", "anim_bind",
+                                  "animation_controller", "animation")
+            self._link_anim_group(ident, extra,
+                                  "attachable_ctrl_bind",
+                                  "attachable_anim_bind",
+                                  "attachable_animation_controller",
+                                  "attachable_animation")
+            for name in extra.get("rc_bind", []):
+                info = self._render.get(name)
                 if info:
                     self.add_ref(ident, {
-                        "role": "animation_controller", "pack": info["pack"],
+                        "role": "render_controller", "pack": info["pack"],
                         "path": info["path"],
                         "format_version": info["format_version"],
                         "name": name})
-                elif is_vanilla_ctrl(name):
-                    self.note(ident, "vanilla_ctrl_ref: %s" % name)
+                elif name.startswith("controller.render."):
+                    self.note(ident, "vanilla_render_ctrl_ref: %s" % name)
                 else:
-                    self.add_warning(ident, "anim_ctrl_missing: %s" % name)
-            for name in extra.get("anim_bind", []):
-                if name.startswith("controller."):
-                    continue
-                info = self._anim.get(name)
-                if info:
+                    self.note(ident, "render_ctrl_missing: %s" % name)
+
+    def _link_anim_group(self, ident, extra, ctrl_key, anim_key,
+                         ctrl_role, anim_role):
+        for name in extra.get(ctrl_key, []):
+            infos = self._ctrl.get(name) or {}
+            if infos:
+                for pk in sorted(infos):
+                    info = infos[pk]
+                    role = ctrl_role
+                    if ctrl_role == "animation_controller":
+                        role = ("animation_controller_behavior"
+                                if pk == "behavior"
+                                else "animation_controller_resource")
                     self.add_ref(ident, {
-                        "role": "animation", "pack": info["pack"],
+                        "role": role, "pack": info["pack"],
                         "path": info["path"],
                         "format_version": info["format_version"],
                         "name": name})
-                elif is_vanilla_anim(name):
-                    self.note(ident, "vanilla_anim_ref: %s" % name)
-                else:
-                    self.add_warning(ident, "anim_missing: %s" % name)
+            elif is_vanilla_ctrl(name):
+                self.note(ident, "vanilla_ctrl_ref: %s" % name)
+            else:
+                self.add_warning(ident, "anim_ctrl_missing: %s" % name)
+        for name in extra.get(anim_key, []):
+            if name.startswith("controller."):
+                continue
+            info = self._anim.get(name)
+            if info:
+                self.add_ref(ident, {
+                    "role": anim_role, "pack": info["pack"],
+                    "path": info["path"],
+                    "format_version": info["format_version"],
+                    "name": name})
+            elif is_vanilla_anim(name):
+                self.note(ident, "vanilla_anim_ref: %s" % name)
+            else:
+                self.add_warning(ident, "anim_missing: %s" % name)
 
     # ------------------------------------------------------------ 语言名挑选
     LANG_PRIORITY = ("zh_CN", "zh_TW", "zh_HK", "zh_SG")
@@ -943,31 +1241,52 @@ class Probe(object):
             name = clean_lang_name(v)
             return name or None
 
-        # 1. 精确中文 locale
         for loc in self.LANG_PRIORITY:
             name = _clean(by_loc.get(loc))
             if name:
                 return name
-        # 2. 任意 zh_* 开头
         for loc in sorted(by_loc):
             if loc.lower().startswith("zh"):
                 name = _clean(by_loc[loc])
                 if name:
                     return name
-        # 3. 退回任意 locale 的首个非空名
         for loc in sorted(by_loc):
             name = _clean(by_loc[loc])
             if name:
                 return name
-        # 4. 兜底：外部传入的首个非空值
         return clean_lang_name(cleaned_fallback[0]) if cleaned_fallback else None
 
     # ------------------------------------------------------------ 收尾
+    def _linked_paths(self):
+        linked = set()
+        for obj in self.objects.values():
+            prim = obj.get("primary")
+            if prim:
+                linked.add((prim.get("pack"), prim.get("path")))
+            for r in obj.get("references") or []:
+                if r.get("path"):
+                    linked.add((r.get("pack"), r.get("path")))
+        return linked
+
+    DROP_UNBOUND_KINDS = {
+        "recipe", "spawn_rules", "feature", "feature_rule",
+        "animation", "animation_controller", "render_controller",
+        "material", "function", "trading", "loot_table", "unknown",
+    }
+
     def finalize(self):
+        linked = self._linked_paths()
+        # 已被引用的文件不再列入 unbound(语言键除外)
+        self.unbound = [
+            u for u in self.unbound
+            if not (u.get("kind") in self.DROP_UNBOUND_KINDS
+                    and (u.get("pack"), u.get("path")) in linked)
+        ]
+
         for ident, obj in self.objects.items():
             obj["references"].sort(key=lambda r: (r.get("role", ""),
                                                   r.get("pack", ""),
-                                                  r.get("path", "")))
+                                                  r.get("path") or ""))
             notes = self._notes.get(ident)
             if notes:
                 obj["notes"] = notes
@@ -979,6 +1298,13 @@ class Probe(object):
                 if cleaned:
                     obj["lang_text"] = " ".join(cleaned)[:4000]
                     obj["lang_name"] = self._pick_lang_name(ident, cleaned)
+            try:
+                obj["slots"] = slots_mod.build_slots(
+                    obj.get("kind"), obj.get("references"),
+                    obj.get("namespace"), obj.get("name"))
+            except Exception:
+                obj["slots"] = {}
+
         kinds = {}
         for o in self.objects.values():
             kinds[o["kind"]] = kinds.get(o["kind"], 0) + 1
@@ -992,6 +1318,7 @@ class Probe(object):
                                   for o in self.objects.values())
         self.stats["non_json_assets"] = self.assets
         self.stats["vanilla_recipes"] = len(self.vanilla_recipes)
+        self.stats["unbound"] = len(self.unbound)
 
     def read_manifest(self, root, pack):
         mf = os.path.join(root, "manifest.json")

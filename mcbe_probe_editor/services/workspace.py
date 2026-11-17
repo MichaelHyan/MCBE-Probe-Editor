@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """工作区管理。
 
 工作区结构(对应 plan.md 1.1):
@@ -198,6 +198,13 @@ def resolve_pack_dir(project_id, pack):
     if raw and os.path.isdir(raw):
         return raw
     return None
+
+
+def ensure_pack_dir(project_id, pack):
+    """确保某包的 source 目录存在（新建对象时按需创建）。"""
+    d = source_dir(project_id, pack)
+    os.makedirs(d, exist_ok=True)
+    return d
 
 
 def list_projects():

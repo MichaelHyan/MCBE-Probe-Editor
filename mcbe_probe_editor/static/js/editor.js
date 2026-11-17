@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   const $ = (s) => document.querySelector(s);
   const PID = window.PROJECT_ID;
   const IDENT = window.IDENT;
@@ -41,6 +41,52 @@
 
     if (obj.warnings && obj.warnings.length) {
       html += `<div class="warn-box">${obj.warnings.map((w) => "⚠ " + esc(w)).join("<br>")}</div>`;
+    }
+
+    // 关联引用（固定槽位，全部可选）
+    const slots = (data.object && data.object.slots) || {};
+    const slotKeys = Object.keys(slots);
+    if (slotKeys.length) {
+      html += `<div class="editor-section"><h3>${esc(t("editor.slots", "关联引用"))}</h3>
+        <table class="comp-table"><tbody>`;
+      slotKeys.forEach((k) => {
+        const s = slots[k] || {};
+        const refs = s.refs || [];
+        const st = s.state || (refs.length ? "linked" : "optional");
+        const badge = st === "linked"
+          ? `<span class="tag ok">${esc(t("slot.state.linked", "已关联"))}</span>`
+          : (st === "pending"
+              ? `<span class="tag warn">${esc(t("slot.state.pending", "待指定"))}</span>`
+              : `<span class="muted small">${esc(t("slot.state.optional", "可选"))}</span>`);
+        let refsHtml = "";
+        refs.forEach((r, ri) => {
+          const p = (r.pack ? esc(r.pack) + "/" : "") + esc(r.path || r.name || "-");
+          const fv = r.format_version
+            ? ` <span class="fv">v${esc(r.format_version)}</span>` : "";
+          const keys = (r.keys && r.keys.length)
+            ? ` <span class="muted small">[${esc(r.keys.join(", "))}]</span>` : "";
+          const unresolved = (r.resolved === false);
+          const open = (r.pack && r.path && !unresolved)
+            ? ` <button class="btn small ghost" data-slot-open="${esc(k)}:${ri}">${esc(t("common.edit", "打开"))}</button>`
+            : "";
+          const mark = unresolved
+            ? ` <span class="tag warn">${esc(t("editor.slotUnresolved", "未找到文件"))}</span>`
+            : "";
+          refsHtml += `<div><code>${p}</code>${fv}${keys}${mark}${open}</div>`;
+        });
+        if (!refsHtml) refsHtml = `<span class="muted small">—</span>`;
+        let ops = `<button class="btn small ghost" data-slot-link="${esc(k)}">${esc(t("editor.slotLink", "关联"))}</button>`;
+        if (s.can_create) {
+          ops += ` <button class="btn small" data-slot-create="${esc(k)}">${esc(t("editor.slotCreate", "新建"))}</button>`;
+        }
+        html += `<tr>
+          <td class="comp-name" style="width:18%">${esc(t("slot." + k, s.label || k))}</td>
+          <td style="width:80px">${badge}</td>
+          <td>${refsHtml}</td>
+          <td style="width:180px">${ops}</td>
+        </tr>`;
+      });
+      html += `</tbody></table></div>`;
     }
 
     html += `<div class="editor-section"><h3>${esc(t("editor.fileGroups", "文件分组"))}</h3>
@@ -115,6 +161,25 @@
       if (first) first.click();
     }
 
+    root.querySelectorAll("[data-slot-link]").forEach((btn) => {
+      btn.onclick = () => openSlotModal(btn.dataset.slotLink, "link");
+    });
+    root.querySelectorAll("[data-slot-create]").forEach((btn) => {
+      btn.onclick = () => openSlotModal(btn.dataset.slotCreate, "create");
+    });
+    root.querySelectorAll("[data-slot-open]").forEach((btn) => {
+      btn.onclick = () => {
+        const raw = btn.dataset.slotOpen || "";
+        const cut = raw.lastIndexOf(":");
+        const k = raw.slice(0, cut);
+        const ri = parseInt(raw.slice(cut + 1), 10);
+        const s = (data.object && data.object.slots && data.object.slots[k]) || {};
+        const r = (s.refs || [])[ri];
+        if (!r || !r.pack || !r.path) return;
+        openSlotRef(r);
+      };
+    });
+
     root.querySelectorAll("[data-geo-link]").forEach((btn) => {
       btn.onclick = async () => {
         const gi = parseInt(btn.dataset.geoLink, 10);
@@ -134,6 +199,139 @@
 
     const saveLang = $("#btn-save-lang");
     if (saveLang) saveLang.onclick = saveLangKeys;
+  }
+
+  // ---------------- 关联槽位 ----------------
+  let slotCtx = null;
+
+  async function openSlotModal(key, mode) {
+    slotCtx = { key: key, mode: mode };
+    const slots = (data && data.object && data.object.slots) || {};
+    const s = slots[key] || {};
+    const modal = $("#slot-modal");
+    if (!modal) return;
+    $("#slot-modal-title").textContent = (s.label || t("slot." + key, key)) +
+      " · " + (mode === "link" ? t("editor.slotLink", "关联")
+                              : t("editor.slotCreate", "新建"));
+    $("#slot-modal-hint").textContent = s.suggest
+      ? (t("editor.slotSuggest", "建议路径") + ": " + s.suggest) : "";
+    const linkRow = $("#slot-link-row");
+    const acRow = $("#slot-ac-row");
+    if (mode === "link") {
+      linkRow.style.display = "";
+      acRow.style.display = "none";
+      $("#slot-path").value = "";
+      const sel = $("#slot-candidate");
+      sel.innerHTML = `<option value="">${esc(t("common.loading", "加载中…"))}</option>`;
+      try {
+        const r = await api(base + "/edit/" + encodeURIComponent(IDENT) + "/slots");
+        const found = (r.slots || []).find((x) => x.key === key);
+        const cands = (found && found.candidates) || [];
+        sel.innerHTML =
+          `<option value="">${esc(t("editor.slotPick", "选择候选（或手动填写）"))}</option>` +
+          cands.map((c) => `<option value="${esc(c.pack)}|${esc(c.path)}">` +
+            `${esc(c.pack)}/${esc(c.path)}</option>`).join("");
+      } catch (e) {
+        sel.innerHTML = `<option value="">${esc(e.message)}</option>`;
+      }
+    } else {
+      linkRow.style.display = "none";
+      acRow.style.display = key.indexOf("animation_controller") >= 0 ? "" : "none";
+      const ac = $("#slot-ac-names");
+      if (ac) ac.value = "";
+    }
+    modal.classList.remove("hidden");
+  }
+
+  const slotOkBtn = $("#slot-ok");
+  if (slotOkBtn) slotOkBtn.onclick = async () => {
+    if (!slotCtx) return;
+    const key = slotCtx.key;
+    const mode = slotCtx.mode;
+    try {
+      if (mode === "create") {
+        const body = { slot: key };
+        if (key.indexOf("animation_controller") >= 0) {
+          const acEl = $("#slot-ac-names");
+          const raw = acEl ? (acEl.value || "").trim() : "";
+          if (raw) {
+            body.animation_controller_names = raw.split(",")
+              .map((x) => x.trim()).filter(Boolean);
+          }
+        }
+        const r = await api(base + "/edit/" + encodeURIComponent(IDENT) +
+          "/slots/create", { method: "POST", body: body });
+        if (r.warnings && r.warnings.length) toast(r.warnings.join("; "), true);
+        else toast(tf("editor.slotCreated", { n: (r.created || []).length }, "已创建"));
+      } else {
+        let pack = "";
+        let path = "";
+        const manual = ($("#slot-path").value || "").trim();
+        if (manual) {
+          const parts = manual.replace(/\\/g, "/").split("/");
+          if (parts[0] === "behavior" || parts[0] === "resource") pack = parts.shift();
+          else pack = "resource";
+          path = parts.join("/");
+        } else {
+          const sel = $("#slot-candidate");
+          if (sel && sel.value) {
+            const cut = sel.value.indexOf("|");
+            pack = sel.value.slice(0, cut);
+            path = sel.value.slice(cut + 1);
+          }
+        }
+        if (!path) { toast(t("editor.slotNeedPath", "请选择或填写文件路径"), true); return; }
+        await api(base + "/edit/" + encodeURIComponent(IDENT) + "/slots/link",
+          { method: "POST", body: { slot: key, pack: pack, path: path } });
+        toast(t("common.saveOk", "已关联"));
+      }
+      $("#slot-modal").classList.add("hidden");
+      await reload();
+    } catch (e) { toast(e.message, true); }
+  };
+
+  // ---------------- 槽位跳转 ----------------
+  // 图像 -> 像素画编辑器；JSON -> 代码区（文件标签 + 滚动）；其余 -> 文件浏览
+  function openPaint(f) {
+    location.href = "/project/" + encodeURIComponent(PID) +
+      "/paint?pack=" + encodeURIComponent(f.pack) +
+      "&path=" + encodeURIComponent(f.path);
+  }
+
+  function openInCodeArea(f) {
+    const root = $("#edit-root");
+    const files = (data && data.files) || [];
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].pack === f.pack && files[i].path === f.path) {
+        const tab = root.querySelector('.file-tab[data-i="' + i + '"]');
+        if (tab) {
+          tab.click();
+          const code = $("#raw-json");
+          if (code) code.scrollIntoView({ behavior: "smooth", block: "center" });
+          else tab.scrollIntoView({ behavior: "smooth", block: "center" });
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function openSlotRef(r) {
+    if (!r || !r.pack || !r.path) return;
+    const low = String(r.path).toLowerCase();
+    if (low.endsWith(".png") || low.endsWith(".tga")) {
+      openPaint(r);
+      return;
+    }
+    if (openInCodeArea(r)) return;
+    location.href = "/project/" + encodeURIComponent(PID) +
+      "/browser?pack=" + encodeURIComponent(r.pack) +
+      "&path=" + encodeURIComponent(r.path);
+  }
+
+  const slotCancelBtn = $("#slot-cancel");
+  if (slotCancelBtn) {
+    slotCancelBtn.onclick = () => $("#slot-modal").classList.add("hidden");
   }
 
   // ---------------- 文件体 ----------------

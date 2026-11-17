@@ -1,0 +1,10 @@
+{
+  "format_version": "1.17.3",
+  "minecraft:block": {
+    "description": {
+      "identifier": "__IDENT__",
+      "register_to_creative_menu": true
+    },
+    "components": {}
+  }
+}

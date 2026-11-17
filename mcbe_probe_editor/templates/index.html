@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block title %}{{ i18n_dict["index.title"] }} · {{ project_id }}{% endblock %}
 
 {% block topbar %}
@@ -91,11 +91,17 @@
         <input id="no-name" type="text" placeholder="my_item">
       </label>
       <label>format_version
-        <input id="no-fv" type="text" placeholder="1.21.50">
+        <input id="no-fv" type="text" placeholder="1.21.50" list="no-fv-list">
+        <datalist id="no-fv-list"></datalist>
       </label>
-      <label class="inline"><input id="no-res" type="checkbox" checked>
+      <div class="toolbar" style="margin:4px 0">
+        <button id="no-tpl-view" class="btn small ghost" type="button">查看模板代码</button>
+        <button id="no-tpl-copy" class="btn small ghost" type="button">复制模板代码</button>
+      </div>
+      <pre id="no-tpl-code" class="code" style="display:none;max-height:220px;overflow:auto"></pre>
+      <label class="inline"><input id="no-res" type="checkbox">
         <span data-i18n="index.withResource">生成资源包注册</span></label>
-      <label class="inline"><input id="no-lang" type="checkbox" checked>
+      <label class="inline"><input id="no-lang" type="checkbox">
         <span data-i18n="index.withLang">写入语言键</span></label>
       <label class="inline"><input id="no-tex" type="checkbox">
         <span data-i18n="index.withTexture">登记贴图索引</span></label>

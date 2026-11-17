@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block title %}{{ ident }} · {{ project_id }}{% endblock %}
 
 {% block topbar %}
@@ -52,6 +52,30 @@
     <div id="add-list" class="add-list"></div>
     <div class="toolbar">
       <button id="add-cancel" class="btn ghost" data-i18n="common.close">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div id="slot-modal" class="modal hidden">
+  <div class="modal-box" style="width:min(620px,94vw)">
+    <h3 id="slot-modal-title">关联</h3>
+    <p class="muted small" id="slot-modal-hint"></p>
+    <div id="slot-link-row">
+      <div class="toolbar">
+        <select id="slot-candidate" style="flex:1"></select>
+      </div>
+      <div class="toolbar">
+        <input id="slot-path" type="text" placeholder="behavior/xxx.json 或 resource/xxx.json"
+               style="flex:1">
+      </div>
+    </div>
+    <div id="slot-ac-row" style="display:none">
+      <p class="muted small" data-i18n="editor.slotAcHint">控制器文件名，多个用逗号分隔（可指定多个不同名文件）</p>
+      <input id="slot-ac-names" type="text" placeholder="my_item_ac, my_item_ac2" style="width:100%">
+    </div>
+    <div class="toolbar">
+      <button id="slot-ok" class="btn primary" data-i18n="common.ok">确定</button>
+      <button id="slot-cancel" class="btn ghost" data-i18n="common.cancel">取消</button>
     </div>
   </div>
 </div>

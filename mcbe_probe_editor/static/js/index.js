@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   const $ = (s) => document.querySelector(s);
   const PID = window.PROJECT_ID;
   const base = "/api/project/" + encodeURIComponent(PID);
@@ -149,6 +149,11 @@
       }
       const kind = $("#no-kind").value || (kindsInfo.kinds[0] || "item");
       $("#no-fv").value = (kindsInfo.default_fv || {})[kind] || "";
+      refreshFvList();
+      ["#no-res", "#no-lang", "#no-tex"].forEach((s) => {
+        const el = $(s);
+        if (el) el.checked = false;
+      });
       noModal.classList.remove("hidden");
     } catch (e) { toast(e.message, true); }
   }
@@ -158,13 +163,64 @@
   const noCancel = $("#no-cancel");
   if (noCancel) noCancel.onclick = () => noModal.classList.add("hidden");
 
+  function refreshFvList() {
+    if (!kindsInfo) return;
+    const kind = $("#no-kind").value;
+    const list = $("#no-fv-list");
+    if (!list) return;
+    const vers = (kindsInfo.templates || [])
+      .filter((x) => x.kind === kind)
+      .map((x) => x.format_version);
+    list.innerHTML = vers.map((v) =>
+      `<option value="${esc(v)}"></option>`).join("");
+  }
+
+  async function fetchTemplate() {
+    const kind = $("#no-kind").value;
+    const fv = ($("#no-fv").value || "").trim();
+    if (!kind || !fv) return null;
+    try {
+      const r = await api(base + "/objects/template?kind=" +
+        encodeURIComponent(kind) + "&fv=" + encodeURIComponent(fv));
+      return r.template;
+    } catch (e) { toast(e.message, true); return null; }
+  }
+
   const noKind = $("#no-kind");
   if (noKind) {
     noKind.onchange = () => {
       if (!kindsInfo) return;
       $("#no-fv").value = (kindsInfo.default_fv || {})[noKind.value] || "";
+      refreshFvList();
+      const code = $("#no-tpl-code");
+      if (code) code.style.display = "none";
     };
   }
+
+  const tplView = $("#no-tpl-view");
+  if (tplView) tplView.onclick = async () => {
+    const tpl = await fetchTemplate();
+    if (!tpl) return;
+    const code = $("#no-tpl-code");
+    code.textContent = JSON.stringify(tpl, null, 2);
+    code.style.display = "";
+  };
+
+  const tplCopy = $("#no-tpl-copy");
+  if (tplCopy) tplCopy.onclick = async () => {
+    const tpl = await fetchTemplate();
+    if (!tpl) return;
+    const txt = JSON.stringify(tpl, null, 2);
+    try {
+      await navigator.clipboard.writeText(txt);
+      toast(t("editor.copied", "已复制到剪贴板"));
+    } catch (e) {
+      const code = $("#no-tpl-code");
+      code.textContent = txt;
+      code.style.display = "";
+      toast(t("editor.copied", "已复制到剪贴板"));
+    }
+  };
 
   const noCreate = $("#no-create");
   if (noCreate) {

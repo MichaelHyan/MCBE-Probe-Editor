@@ -1,9 +1,9 @@
-# MCBE Probe Editor — 开发进度与实现说明
+﻿# MCBE Probe Editor — 开发进度与实现说明
 
 > 记录当前实现状态、工程结构、核心数据结构与技术细节，供正式测试与后续开发参考。
 > 设计需求见 [plan.md](plan.md)，使用说明见 [README.md](README.md)，组件库字段标准见 [DATABASE.md](DATABASE.md)。
 
-最后更新：第七轮改动完成（正式库填充：11 桶 / 1423 条组件 / 476 份文档），数据标准见 [DATABASE.md](DATABASE.md)。功能通过脚本自检，人工界面测试仍需逐页验证。
+最后更新：第八轮改动完成（关联槽位、空模板库、方块材质链、模型定位、贴图路径规范、清理）。数据标准见 [DATABASE.md](DATABASE.md)，使用说明见 [README.md](README.md)。功能通过脚本自检，人工界面测试仍需逐页验证。
 
 ---
 
@@ -11,7 +11,7 @@
 
 | 模块 | 状态 | 说明 |
 |---|---|---|
-| 探测（probe） | ✅ 完成 | 385 对象 / 2834 引用 / 7 条真实告警（源数据问题） |
+| 探测（probe） | ✅ 完成 | 385 对象 / 2850 引用 / 11 条告警（含悬空引用） |
 | 索引与浏览 | ✅ 完成 | 对象列表、对象详情、引用树、告警/notes |
 | 组件数据库 | ✅ 完成 | 临时库/正式库、按版本分桶、提升、文档核实；正式库已填充 11 桶 / 1423 条 |
 | 组件编辑器 | ✅ 完成 | 组件增删改、代码区、语言键、贴图、模型关联 |
@@ -25,11 +25,13 @@
 | 示例库 | ✅ 完成 | project / local / official 三类示例，下拉选择 + 填入 + 复制 + 存为示例；存**真实取值**；同桶多值合并并标注来源对象 |
 | scope 编辑 | ✅ 完成 | components / component_groups.组 / events 三区独立增删改 |
 | 组件组组件库 | ✅ 完成 | 组内独有组件并入版本桶，组件组与顶层共用组件表 / 组件库 |
-| 新建对象 | ✅ 完成 | item / entity / block，按标准写法生成主文件与配套文件 |
+| 新建对象 | ✅ 完成 | identifier 与路径全自动推导，主文件由空模板生成，附加产物全可选 |
+| 关联槽位 | ✅ 完成 | 按 kind 固定槽位表，支持关联 / 新建 / 打开，主体与共享登记文件分离 |
+| 空模板库 | ✅ 完成 | `db/official/templates/<kind>/<fv>.json`，每个现存版本一份骨架 |
 | 包信息编辑 | ✅ 完成 | manifest 独立页面（双包分栏 / 校验 / 模板），不进对象索引 |
 | 导出目录 | ✅ 完成 | 产物统一落到工程根 output/项目名/ |
 
-**路由总数：61**（不含 `static`）。页面与 API 已通过脚本级自检（fails: 0），**界面交互仍待人工验证**（见第十三节待办）。
+**路由总数：64**（不含 `static`）。页面与 API 已通过脚本级自检（fails: 0），**界面交互仍待人工验证**（见第十三节待办）。
 
 ---
 
@@ -115,8 +117,9 @@ workspaces/<project_id>/
 ```json
 {
   "packs": { "behavior": {...}, "resource": {...} },
-  "stats": { "objects": 385, "kinds": {...}, "references": 2834,
-             "warnings": 7, "notes": 739, "lang_keys_bound": 1395 },
+  "stats": { "objects": 385, "kinds": {...}, "references": 2850,
+             "warnings": 11, "notes": 863, "lang_keys_bound": 1395,
+             "unbound": 208 },
   "objects": {
     "items:sword_b": {
       "kind": "item",
@@ -427,9 +430,9 @@ _changes.json
 | 指标 | 数值 |
 |---|---|
 | 对象 | 385（item 223 / entity 159 / block 3） |
-| 引用 | 2834 |
-| 警告 | **7（全部为源数据真实问题）** |
-| notes | 739（原版内置引用，已降级） |
+| 引用 | 2850 |
+| 警告 | 11（源数据问题 + 悬空 geometry / 动画控制器引用） |
+| notes | 863（原版内置引用，已降级） |
 | 语言键绑定 | 1395 |
 | 特殊文件 | 19 |
 | 结构 | 25（全部 fv1） |
@@ -630,12 +633,153 @@ python tools/db_test.py          # 未绑定 + 组件数据库
 - 人工剔除 `minecraft:player.exhaustion` / `.experience` / `.level` / `.saturation`（属玩家属性，非实体组件），逻辑固化在 `finalize.py` 的 `REMOVE` 常量。
 
 数据源、版本映射、构建脚本顺序、人工确认清单与 `verified` 语义见 [DATABASE.md](DATABASE.md) 第 10 节。
+
+---
+
+### 12.11 第八轮：关联槽位与新建体系
+
+本轮把「模糊的 references 列表」升级为「有名字、有状态、可操作的固定关联位置」，并按实测模组规则校正每类对象的对应关系。
+
+#### 新增模块
+
+| 文件 | 职责 |
+|---|---|
+| `services/slots.py` | 槽位定义表 + `build_slots()`：按 kind 从 references 聚合出固定槽位 |
+| `services/templates.py` | 空模板库 `db/official/templates/<kind>/<fv>.json`，`materialize()` 填充 identifier |
+
+#### 槽位表（全部可选，状态 linked / optional / pending）
+
+| kind | 槽位 |
+|---|---|
+| item | 资源包注册、attachable（含贴图）、attachable 动画、attachable 动画控制器、attachable 模型、贴图、配方 |
+| entity | 实体资源注册、模型、动画、动画控制器（行为包）、动画控制器（资源包）、贴图、生成规则、掉落表、交易表、声音、渲染控制器 |
+| block | 贴图、blocks.json 登记、terrain_texture.json 登记、feature、feature_rule、掉落表、配方 |
+
+关键校正点：
+
+| 项 | 规则 |
+|---|---|
+| 语言键 | **不是槽位**——写在共享 `texts/<locale>.lang` 固定位置，按对象自己的键读写 |
+| 掉落表 | 仅 entity / block |
+| 配方 | item / block 可多个 |
+| 物品贴图 | **主体是 png**，`item_texture.json` 仅作登记媒介 |
+| 方块贴图 | **主体是 png，可多张**；`blocks.json` 与 `terrain_texture.json` 是两个共享登记文件；六面地址是键名，不等于六张图 |
+| 实体动画控制器 | 行为包与资源包是**两个独立物**，分两个槽 |
+| geometry | 引用了名字但未解析到文件 → `pending`（待指定） |
+
+#### 探测增强（`services/probe.py`）
+
+| 新增 | 说明 |
+|---|---|
+| `link_block_materials()` | `blocks.json` 按键归属 → 六个贴图键 → `terrain_texture.json` → png；兼容 1.21+ `minecraft:material_instances` |
+| `link_features()` | 两遍关联：`replace_rules.places_block` 挂方块，再 `places_feature` 经 feature 二级命中 |
+| `link_assets()` geometry 部分 | 扫 `models/` 的 `minecraft:geometry[].description.identifier` 与 1.12 键名，geometry 引用带 pack/path/format_version/resolved |
+| `link_item_textures()` | 物品贴图兜底：索引键 == 对象名 或约定路径存在即挂接，不强依赖 `minecraft:icon` |
+| `_ctrl` 按 pack 分桶 | 同名控制器在行为包 / 资源包分别记录，role 拆为 `animation_controller_behavior` / `_resource` |
+| `collect_render_controllers()` | 收集并索引 render_controllers |
+| `finalize()` 输出 slots | 并剔除已被引用的 unbound 项 |
+
+#### 新建体系（`services/objects.py` 重写）
+
+- identifier 一律由 `namespace:name` 推导，用户不手写。
+- 路径全部按模组规则固定，唯一例外是动画控制器可指定多个不同名文件。
+- 主文件由空模板生成（0 组件），版本可自选。
+- 贴图新规则：`textures/<类别>/<namespace>/<name>.png`，目录自动创建；已有贴图不迁移。
+
+| 类别 | 新贴图路径 | 空白尺寸 |
+|---|---|---|
+| item | `textures/items/<ns>/<name>.png` | 16×16 |
+| entity | `textures/entity/<ns>/<name>.png` | 64×64 |
+| attachable | `textures/attachable/<ns>/<name>.png` | 16×16 |
+| block | `textures/blocks/<name>.png` | 16×16 |
+
+- 新增 `workspace.ensure_pack_dir()`，单包项目也能建另一侧目录。
+- 新增 `register_item_texture()`，把任意 png 登记进 `item_texture.json`。
+- 「同时创建」选项默认**全部不勾选**（`with_resource` / `with_lang` / `with_texture` 默认 False）。
+- 语言键写入规则对齐实测：item 无 `.name`，entity / block 带 `.name`。
+
+#### 槽位 API（`routes/editor.py`）
+
+| 方法 | 路径 | 作用 |
+|---|---|---|
+| GET | `/edit/<ident>/slots` | 槽位详情 + 候选文件（图片槽扫 png/tga，登记槽给文件本身） |
+| POST | `/edit/<ident>/slots/link` | 关联已有文件：注册类对齐 identifier、模型改写 geometry、动画写入宿主、方块贴图六面统一切换 |
+| POST | `/edit/<ident>/slots/create` | 按规则自动建文件，全部 `can_create` 槽位均有骨架模板 |
+
+- 新增骨架模板 7 个：animation / loot_table / trading / feature / feature_rule / recipe / render_controller。
+- `EXACT_FILE_SLOTS = {"blocks_json", "terrain_texture"}`：候选就是文件本身，不递归目录。
+- `EDITABLE_JSON_ROLES` 补入 geometry / blocks_json / terrain_texture / animation 系列，使它们在文件分组中可编辑。
+
+#### 前端
+
+- 编辑页「文件分组」上方新增「关联引用」表：槽位 / 状态徽标 / 当前关联（路径 + 版本 + keys）/ 操作（关联、新建）。
+- 「打开」按钮智能路由：`.png` / `.tga` → 像素画编辑器；其他 JSON → 切文件标签并滚动到代码区。
+- 关联弹窗：候选下拉 + 手填路径；新建弹窗：动画控制器可填多个逗号分隔名。
+- 新建对象弹窗：版本下拉（来自模板库）+「查看模板代码」「复制模板代码」，打开时重置所有「同时创建」选项为不勾选。
+- 槽位标签走 i18n（`slot.<key>`），状态含 `slot.state.linked` / `.optional` / `.pending`。
+
+#### 方块贴图索引修复
+
+**现象**：方块点「新建」生成贴图后，贴图槽仍是 `optional`，新图未被索引。
+
+**根因（两处叠加）**
+
+| # | 问题 | 表现 |
+|---|---|---|
+| 1 | `terrain_texture.json` 按约定造 `<name>_up` 等六个键，而 `blocks.json` 可能使用**自定义键名**（如 `sixface_top` / `sixface_side` / `sixface_side2`） | 新图落进 `blocks.json` 根本不引用的孤儿键，探测扫不到 |
+| 2 | 新建走「只补缺失键」，关联走「无条件覆盖六面」 | 对已有完整贴图映射的方块，新建不生效；关联又破坏原有独立贴图 |
+
+**修复**（`routes/editor.py`）
+
+| 函数 | 变化 |
+|---|---|
+| `_ensure_blocks_json()` | 返回 `(face -> texkey 映射, 写入文件列表)`，**保留已有自定义键名**，只补缺失面 |
+| `_block_texture_keys()` | 从映射取出该方块实际使用的全部贴图键（含非标准面键，去重） |
+| `_ensure_terrain()` | 改为按传入的 `texkeys` 写，**不再自己造键** |
+| `_existing_block_keys()` | 只读：从 `blocks.json` 取该方块的现状键名 |
+| `_link_block_texture()` | 增加 `overwrite` 参数，区分新建与关联 |
+
+**语义**（键名一律沿用 `blocks.json` 已有命名，不破坏既有结构）
+
+| 操作 | 行为 |
+|---|---|
+| 新建贴图 | 生成空白 png，**接管该方块全部贴图键** |
+| 关联贴图 | 该方块全部贴图键统一切换到指定 png |
+| blocks_json 槽新建 | 补条目 + 按实际键名补 terrain |
+| terrain_texture 槽新建 | 只补 `blocks.json` 现存的键，不新增键 |
+
+**验证**
+
+```
+TaoismV5 真实方块（只读，未被改动）
+  blocks:ball          texture=linked(3)  blocks_json=linked  terrain=linked
+    bfront.png / bside.png / bup.png  resolved=True
+  blocks:cinnabar_ore  texture=linked(1)  blocks_json=linked  terrain=linked
+  blocks:framework     texture=linked(1)  blocks_json=linked  terrain=linked
+
+自定义键名方块（sixface_top / _side / _side2）
+  新建贴图 → 三个自定义键全部指向 sixface.png，未产生 sixface_up 孤儿键
+  关联新图 → 三个自定义键统一切换到 newface.png
+
+全新方块完整链路
+  新建贴图 → chain.png + blocks.json + terrain_texture.json
+  index roles → ['block_texture', 'blocks_json', 'terrain_texture']
+  slots → texture=linked, blocks_json=linked, terrain_texture=linked
+```
+
+#### 清理
+
+- 删除 `tools/` 下 40+ 个一次性补丁与检查脚本，保留 17 个正式脚本。
+- 删除测试工作区残留与 `db_test.py` 的提升副作用（`components/block/1.17.3.json` 及对应测试文档）。
+- TaoismV5 内 7 处测试创建的对象与贴图已删除，`edits/changes.json` 重置；重新探测后恢复 385 对象 / 2850 引用。
+
 ## 十三、待办事项
 
 ### 13.1 必做（阻塞交付）
 
 1. **界面人工测试未完成**：本轮改动均为脚本级自检，需逐页实际点击验证。
-   重点：包信息页、新建对象、scope 切换、示例下拉与复制、导出落点提示。
+   重点：关联槽位的关联/新建/打开、新建对象弹窗（模板查看与复制）、
+   贴图槽的像素画跳转、geometry 待指定显示。
 2. **后端需重启**：`services/{database,pipeline,workspace}.py` 与
    `routes/{editor,export,asset,browser}.py` 均有改动，旧进程不会自动加载。
 3. **浏览器强刷**：`Ctrl+F5` 清 `editor.js` / `app.css` 缓存。
@@ -658,9 +802,9 @@ python tools/db_test.py          # 未绑定 + 组件数据库
 
 ### 13.3 工程清理
 
-14. `tools/` 保留：`probe.py`、`e2e_test.py`、`page_test.py`、`structure_test.py`、
-    `db_test.py`、`test_upload.py`、`verify_r4a.py`、`verify_r4b.py`、
-    `verify_r4c.py`、`update_progress.py`。
+14. `tools/` 保留 17 个正式脚本：`probe.py`、`e2e_test.py`、`page_test.py`、
+    `structure_test.py`、`db_test.py`、`test_upload.py`、`verify_r4a/b/c.py`、
+    `update_progress.py`，以及构建正式库的 5 个脚本与 `official_item116_fields.json`。
 15. 一次性诊断脚本（`analyze.py`、`check_js.py`、`diagnose.py`、`scan2.py`、
     `scan_residue.py`、`struct_diag.py`）已于第五轮删除。
 16. `mcbe_probe_editor/workspaces/`、`output/`、根目录 `_*.txt` 的测试残留已清理。

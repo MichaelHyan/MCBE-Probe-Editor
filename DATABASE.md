@@ -1,10 +1,10 @@
-# 组件库数据标准（临时库 / 正式库）
+﻿# 组件库数据标准（临时库 / 正式库）
 
 > 本文档是组件库的**字段与写入规则权威说明**，对应实现 `services/database.py`。
 > 设计意图见 [plan.md](plan.md) 第 2 节，实现状态见 [PROGRESS.md](PROGRESS.md)。
 > 修改库结构或字段语义时，**必须同步更新本文档**。
 
-最后核对：第六轮（同桶多值示例修复）后与代码逐项对齐。
+最后核对：第八轮（关联槽位 / 空模板库）后与代码逐项对齐。
 
 ---
 
@@ -51,8 +51,12 @@ mcbe_probe_editor/
 │       │   ├── entity/<fv>.json
 │       │   ├── block/<fv>.json
 │       │   └── structure/<fv>.json
-│       └── docs/
-│           └── <kind>/<component>.md
+│       ├── docs/
+│       │   └── <kind>/<component>.md
+│       └── templates/                  空模板库（新建对象用）
+│           ├── item/<fv>.json
+│           ├── entity/<fv>.json
+│           └── block/<fv>.json
 └── workspaces/
     └── <pid>/
         └── db/
@@ -628,6 +632,56 @@ Mojang schema 版本：
 > `docs/` 中 44 份只覆盖单版本、120 份覆盖两版本、109 份三版本、203 份四版本。
 > 24 条 probe 条目中 11 条带多条 `project` 示例（如 entity 1.26.0 的
 > `minecraft:health` 有 6 条），是第六轮「同桶多值合并」的产物。
+## 10.7 空模板库（templates/）
+
+新建对象时的主文件骨架，与正式库**同源不同物**：目录并列、版本对齐，但内容只有 `description` 与空 `components`。
+
+```
+db/official/templates/<kind>/<fv>.json
+```
+
+### 10.7.1 生成规则
+
+`services/templates.py::ensure_templates()`：
+
+1. 扫 `list_official_buckets()` 得到正式库现存的全部 `(kind, format_version)`。
+2. 每个组合在 `templates/<kind>/<fv>.json` 缺文件时写一份骨架。
+3. 已存在的**不覆盖**（避免冲掉人工调整）。
+
+因此模板库版本集合总是正式库版本集合的子集/等集。
+
+### 10.7.2 骨架内容
+
+只有 `description`（identifier 用 `__IDENT__` 占位）与空 `components`：
+
+```json
+{
+  "format_version": "1.21.50",
+  "minecraft:item": {
+    "description": {
+      "identifier": "__IDENT__",
+      "menu_category": { "category": "equipment" }
+    },
+    "components": {}
+  }
+}
+```
+
+- entity 额外带空 `component_groups` / `events`。
+- block 额外带 `register_to_creative_menu`。
+
+### 10.7.3 取用方式
+
+| 场景 | 接口 |
+|---|---|
+| 列出可用版本 | `GET /api/project/<pid>/objects/kinds` 的 `templates` |
+| 查看/复制模板代码 | `GET /api/project/<pid>/objects/template?kind=&fv=` |
+| 创建时实际使用 | `templates.materialize(kind, fv, identifier)`，把 `__IDENT__` 替换为真实 identifier |
+
+> 模板库**不参与**组件查询、不参与示例合并；它只是新建对象的起手文件。
+
+---
+
 ## 11. 已知限制
 
 1. **`default` / `example` 不随多值更新**：临时库只把多值并入 `examples`，`default` 与 `example` 始终是首个取值。需要代表性取值时读 `examples`。
@@ -649,3 +703,4 @@ Mojang schema 版本：
 | 第五轮 | `build_entry` 改用 `clip_value`，`default` / `example` / `examples[].value` 存真实值 |
 | 第六轮 | 临时库同桶多值合并（`add_project_value` / `add_project_example`，`MAX_EXAMPLES = 60`）；`origin` 记录来源对象；`list_examples` 透传 `label` / `origin` / `added`；`promote` 不再覆盖原 `origin` |
 | 第七轮 | 正式库首版填充：entity / item / block x 4 个 format_version，共 11 桶 1423 条；`docs/` 改为按组件跨版本聚合；新增第 10 节记录数据源、版本映射、构建脚本与人工确认记录 |
+| 第八轮 | 新增空模板库 `templates/<kind>/<fv>.json`（第 10.7 节）；关联槽位体系上线，槽位定义见 [PROGRESS.md](PROGRESS.md) 12.11 |

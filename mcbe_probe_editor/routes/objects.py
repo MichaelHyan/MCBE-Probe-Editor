@@ -2,13 +2,15 @@
 """新建对象路由。
 
 API:
-    GET  /api/project/<pid>/objects/kinds      支持的 kind 与默认版本
+    GET  /api/project/<pid>/objects/kinds      支持的 kind、默认版本、模板列表
+    GET  /api/project/<pid>/objects/template   取空模板代码(kind + fv)
     POST /api/project/<pid>/objects/create     创建对象
 """
 
 from flask import Blueprint, jsonify, request
 
 from services import objects as objs
+from services import templates as tpl_mod
 from services import pipeline
 from services import workspace as ws
 
@@ -17,11 +19,29 @@ bp = Blueprint("objects", __name__)
 
 @bp.route("/api/project/<project_id>/objects/kinds")
 def api_kinds(project_id):
+    try:
+        tpl_mod.ensure_templates()
+    except Exception:
+        pass
     return jsonify({
         "ok": True,
         "kinds": list(objs.KINDS),
         "default_fv": dict(objs.DEFAULT_FV),
+        "templates": tpl_mod.list_templates(),
     })
+
+
+@bp.route("/api/project/<project_id>/objects/template")
+def api_template(project_id):
+    kind = (request.args.get("kind") or "").strip()
+    fv = (request.args.get("fv") or "").strip()
+    if kind not in objs.KINDS or not fv:
+        return jsonify({"ok": False, "error": "需要 kind 与 fv"}), 400
+    data = tpl_mod.load_template(kind, fv)
+    if data is None:
+        data = tpl_mod.materialize(kind, fv, "%s:name" % kind)
+    return jsonify({"ok": True, "kind": kind, "format_version": fv,
+                    "template": data})
 
 
 @bp.route("/api/project/<project_id>/objects/create", methods=["POST"])
